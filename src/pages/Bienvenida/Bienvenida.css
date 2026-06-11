@@ -1,0 +1,40 @@
+.bienvenida {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bienvenida-content {
+  text-align: center;
+  color: white;
+}
+
+.bienvenida-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.bienvenida-content p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.bienvenida-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.bienvenida-buttons button {
+  background-color: #00d4ff;
+  color: #333;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.bienvenida-buttons button:hover {
+  background-color: #00a8cc;
+}
