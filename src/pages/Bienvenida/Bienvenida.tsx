@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import './Bienvenida.css'
 
+// Modificación en src/pages/Bienvenida/Bienvenida.tsx
+
 function Bienvenida() {
   const navigate = useNavigate()
 
@@ -9,10 +11,11 @@ function Bienvenida() {
     <div className="bienvenida">
       <div className="bienvenida-content">
         <h1>Bienvenido a DevOps Planet</h1>
-        <p>Aprende DevOps mientras completas los niveles</p>
+        <p>Explora Marte, desbloquea banderas y aprende programación con ejercicios prácticos.</p>
         <div className="bienvenida-buttons">
-          <Button onClick={() => navigate('/login')}>Iniciar Sesión</Button>
-          <Button onClick={() => navigate('/registro')}>Registrarse</Button>
+          {/* CAMBIADO: De '/map' a '/mundo' para coincidir con tu mapa de niveles */}
+          <Button onClick={() => navigate('/mundo')}>Comenzar</Button>
+          <Button variant="secondary" onClick={() => navigate('/login')}>Iniciar Sesión</Button>
         </div>
       </div>
     </div>
