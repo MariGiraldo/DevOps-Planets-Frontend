@@ -1,3 +1,4 @@
+import React from 'react'
 import './Nivel2.css'
 
 function Nivel2() {

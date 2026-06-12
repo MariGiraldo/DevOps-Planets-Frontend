@@ -8,11 +8,12 @@ function Bienvenida() {
   return (
     <div className="bienvenida">
       <div className="bienvenida-content">
+        <div className="bienvenida-badge">Nivel 1: Variables</div>
         <h1>Bienvenido a DevOps Planet</h1>
-        <p>Aprende DevOps mientras completas los niveles</p>
+        <p>Explora Marte, desbloquea banderas y aprende programación con ejercicios prácticos.</p>
         <div className="bienvenida-buttons">
-          <Button onClick={() => navigate('/login')}>Iniciar Sesión</Button>
-          <Button onClick={() => navigate('/registro')}>Registrarse</Button>
+          <Button onClick={() => navigate('/mundo')}>Comenzar</Button>
+          <Button variant="secondary" onClick={() => navigate('/login')}>Iniciar Sesión</Button>
         </div>
       </div>
     </div>
