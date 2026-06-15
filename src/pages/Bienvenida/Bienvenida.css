@@ -1,0 +1,108 @@
+.bienvenida-container {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.bienvenida-content {
+  width: 100%;
+  max-width: 1200px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+}
+
+.bienvenida-texto {
+  flex: 1;
+  color: white;
+}
+
+.bienvenida-texto h1 {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.bienvenida-texto p {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+}
+
+.bienvenida-texto button {
+  padding: 16px 40px;
+  border: none;
+  border-radius: 15px;
+
+  background-color: #4f46e5;
+
+  color: white;
+
+  font-size: 1.1rem;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.bienvenida-texto button:hover {
+
+  background-color: #6366f1;
+
+  transform: translateY(-3px);
+}
+
+.bienvenida-imagen {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.bienvenida-imagen img {
+
+  width: 400px;
+  max-width: 100%;
+
+  animation: flotar 3s ease-in-out infinite;
+}
+
+@keyframes flotar {
+
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 768px) {
+
+  .bienvenida-content {
+
+    flex-direction: column-reverse;
+
+    text-align: center;
+  }
+
+  .bienvenida-texto h1 {
+
+    font-size: 2.5rem;
+  }
+
+  .bienvenida-imagen img {
+
+    width: 250px;
+  }
+}

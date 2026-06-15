@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-
+import Bienvenida from '../pages/Bienvenida/Bienvenida';
 import Login from '../pages/Login/Login';
 import Registro from '../pages/Registro/Registro';
 
@@ -9,7 +9,7 @@ export default function AppRoutes() {
 
       <Route
         path="/"
-        element={<Login />}
+        element={<Bienvenida />}
       />
 
       <Route
@@ -24,7 +24,7 @@ export default function AppRoutes() {
 
       <Route
         path="*"
-        element={<Navigate to="/login" replace />}
+        element={<Navigate to="/" replace />}
       />
 
     </Routes>
