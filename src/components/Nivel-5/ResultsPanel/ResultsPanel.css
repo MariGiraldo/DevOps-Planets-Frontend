@@ -1,0 +1,194 @@
+/* ==========================================================================
+   ESTILOS OPTIMIZADOS: PANEL DE RESULTADOS Y SOLUCIÓN REVELADA
+   ========================================================================== */
+
+.results-inner-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  text-align: left;
+}
+
+/* Título unificado con el de la izquierda y derecha */
+.results-panel-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #00f2fe !important;
+  margin-top: 0;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+/* Caja base donde cae la respuesta o el estado vacío */
+.results-display-box {
+  flex-grow: 1;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estado de espera simple (Antes de revelar) */
+.results-empty-state {
+  flex-grow: 1;
+  background: rgba(6, 1, 15, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.fallback-text {
+  font-family: 'Fira Code', monospace;
+  font-size: 12.5px;
+  color: #9d8db5;
+  margin: 0;
+}
+
+/* TERMINAL DE LA RESPUESTA REVELADA */
+.revealed-solution-container {
+  flex-grow: 1;
+  background: rgba(9, 5, 20, 0.75);
+  border: 1px solid rgba(0, 242, 254, 0.35); /* Brillo Cian sutil */
+  box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.05), 0 4px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Cabecera simulada estilo macOS/Linux */
+.solution-terminal-header {
+  background: rgba(12, 4, 26, 0.8);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid rgba(0, 242, 254, 0.15);
+}
+
+.terminal-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.terminal-dot.red { background: #ff5555; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green { background: #50fa7b; }
+
+.terminal-title {
+  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  color: #00f2fe;
+  margin-left: 10px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* Bloque interno donde se renderiza el código iluminado */
+.solution-code-block {
+  padding: 16px;
+  overflow-x: auto;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.solution-code-block pre {
+  margin: 0;
+}
+
+.solution-code-block code {
+  font-family: 'Fira Code', 'Courier New', monospace !important;
+  font-size: 12.5px !important;
+  line-height: 1.6 !important;
+  white-space: pre;
+}
+
+/* Meta información del Output en el pie de la terminal */
+.solution-footer-meta {
+  background: rgba(6, 1, 15, 0.6);
+  padding: 8px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.expected-badge {
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #9d8db5;
+}
+
+.output-target-value {
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  font-weight: bold;
+  background: rgba(80, 250, 123, 0.15);
+  color: #50fa7b; /* Verde de éxito brillante */
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(80, 250, 123, 0.3);
+}
+
+/* HERENCIA DE TOKENS DE COLOR DE SINTAXIS (Igual a tu editor) */
+.token-keyword { color: #db00ff !important; font-weight: bold; }
+.token-function { color: #00f2fe !important; }
+.token-variable { color: #ffbd2e !important; }
+.token-number { color: #ff5555 !important; }
+.token-operator { color: #ff79c6 !important; }
+.token-comment { color: #6272a4 !important; font-style: italic; }
+
+/* ==========================================================================
+   BOTÓN TERMINAR NIVEL: ESTILO PÍLDORA COMPACTA ASIMÉTRICA
+   ========================================================================== */
+.btn-finish-level {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 24px;
+  margin-top: 16px;
+  border-radius: 20px; /* Redondeado tipo píldora como los del editor */
+  border: none;
+  cursor: pointer;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: fit-content; /* No se estira completo, se ve más elegante compacto */
+}
+
+/* Bloqueado (Gris semitransparente como la foto de referencia) */
+.btn-finish-level.disabled-locked {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: rgba(255, 255, 255, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: not-allowed;
+}
+
+/* Desbloqueado con Brillo Verde Neón */
+.btn-finish-level.active-glow {
+  background: #50fa7b !important;
+  color: #05020a !important;
+  box-shadow: 0 0 15px rgba(80, 250, 123, 0.4);
+}
+
+.btn-finish-level.active-glow:hover {
+  background: #3ee067 !important;
+  box-shadow: 0 0 22px rgba(80, 250, 123, 0.6);
+  transform: translateY(-1px);
+}
+
+/* Animación de entrada suave */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.99); }
+  to { opacity: 1; transform: scale(1); }
+}

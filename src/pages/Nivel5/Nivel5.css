@@ -1,16 +1,495 @@
-.nivel {
+/* ==========================================================================
+   1. CONTENEDOR GENERAL ULTRA-CYBERPUNK
+   ========================================================================== */
+.nivel5-container {
   min-height: 100vh;
-  padding: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 24px;
+  position: relative;
+  overflow-x: hidden; 
+  display: flex;
+  flex-direction: column;
+  background-image: 
+    linear-gradient(rgba(10, 5, 25, 0.75), rgba(10, 5, 25, 0.85)), 
+    url('../../assets/backgrounds/Fondo.jpeg') !important;
+  background-size: cover !important;       
+  background-position: center !important;  
+  background-repeat: no-repeat !important; 
+  background-attachment: fixed !important; 
 }
 
-.nivel h1 {
-  text-align: center;
-  margin-bottom: 2rem;
+/* Luces de Neón Ambientales Decorativas (Z-Index Ajustado) */
+.neon-glow-cyan {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.18) 0%, transparent 70%);
+  top: -150px;
+  left: -150px;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.nivel-content {
-  max-width: 1200px;
+.neon-glow-purple {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(219, 0, 255, 0.15) 0%, transparent 70%);
+  bottom: -200px;
+  right: -150px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   2. INTERFAZ SUPERIOR (CABECERA Y CRONÓMETRO FLOTANTE)
+   ========================================================================== */
+.cyber-level-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  padding: 10px 20px;
+  margin-bottom: 24px;
+  background: linear-gradient(90deg, rgba(22, 11, 41, 0.6) 0%, transparent 100%);
+  border-left: 4px solid #db00ff;
+  border-bottom: 1px solid rgba(219, 0, 255, 0.15);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 5;
+}
+
+.header-glitch-wrapper { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 2px; 
+}
+
+.header-tag {
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  color: #00f2fe;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
+}
+
+.header-title {
+  margin: 0;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 36px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 3px;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 20px rgba(219, 0, 255, 0.6);
+  animation: cyberNeonPulse 3s infinite ease-in-out;
+}
+
+/* Barra de Estado Distribuida Simétricamente (Fijada a los Extremos) */
+.header-status-bar {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  background: rgba(6, 1, 15, 0.6);
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 242, 254, 0.15);
+  font-family: 'Fira Code', monospace;
+  min-width: 450px; /* Previene deformaciones en resoluciones compactas */
+}
+
+.status-left-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-indicator-pulse {
+  width: 8px;
+  height: 8px;
+  background-color: #50fa7b;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #50fa7b;
+  animation: statusPulse 1.6s infinite ease-in-out;
+}
+
+.status-text { 
+  font-size: 10px; 
+  color: #9d8db5; 
+  letter-spacing: 1px; 
+}
+
+/* Reloj Premium de la Esquina Superior Derecha */
+.header-top-timer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(12, 4, 26, 0.6);
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 189, 46, 0.2);
+}
+
+.timer-label {
+  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: #9d8db5;
+  letter-spacing: 0.5px;
+}
+
+.timer-countdown {
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  font-weight: bold;
+  color: #ffbd2e; 
+  text-shadow: 0 0 8px rgba(255, 189, 46, 0.5);
+}
+
+/* ==========================================================================
+   3. WORKSPACE / DISTRIBUCIÓN DE CUADRANTES DE JUEGO
+   ========================================================================== */
+.game-level-workspace.nivel5-layout {
+  position: relative;
+  z-index: 2; 
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 24px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
+  align-items: stretch; 
+  box-sizing: border-box;
+  flex-grow: 1;
+}
+
+.layout-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Modificadores de altura para herencia perfecta en el panel izquierdo */
+.layout-left > div, 
+.instruction-panel-container,
+.glass-panel.instruction-card-layout {
+  height: 100% !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; 
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Proporciones de altura equilibradas para el bloque derecho */
+.layout-right > .code-editor-container {
+  flex: 1;
+  min-height: 380px;
+}
+
+.layout-right > .game-canvas-container,
+.layout-right > .canvas-recolector-view {
+  flex: 1;
+  min-height: 360px;
+}
+
+/* ==========================================================================
+   4. COMPONENTES BASE DE GLASSMORPHISM (TARJETAS INTEGRADAS)
+   ========================================================================== */
+.glass-panel-card, 
+.instruction-panel-container, 
+.code-editor-container, 
+.game-canvas-container,
+.canvas-recolector-view,
+.layout-left > div,
+.instruction-container,
+.panel-instrucciones,
+.glass-panel.instruction-card-layout {
+  background: rgba(22, 11, 41, 0.55) !important; 
+  border: 1px solid rgba(219, 0, 255, 0.25) !important; 
+  backdrop-filter: blur(16px) !important; 
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4),
+              inset 0 0 12px rgba(219, 0, 255, 0.05) !important; 
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box !important;
+}
+
+/* Transición suave de hover en cuadrantes activos */
+.glass-panel-card:hover, 
+.instruction-panel-container:hover, 
+.code-editor-container:hover, 
+.game-canvas-container:hover,
+.canvas-recolector-view:hover,
+.layout-left > div:hover {
+  border-color: rgba(0, 242, 254, 0.4) !important; 
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 
+              0 0 15px rgba(0, 242, 254, 0.1) !important;
+}
+
+/* Legibilidad de tipografías internas de los componentes */
+.layout-left p, 
+.layout-left li, 
+.layout-left span, 
+.layout-left div {
+  color: #e2daff !important;
+}
+
+.layout-left h2, 
+.layout-left h3 {
+  color: #00f2fe !important;
+  text-shadow: 0 0 8px rgba(0, 242, 254, 0.3);
+}
+
+/* ==========================================================================
+   5. ESCENARIO DE SIMULACIÓN (MAPA EN MATRIZ Y CONSOLA DE SALIDA)
+   ========================================================================== */
+.simulation-workspace-split {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr; 
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  align-items: stretch;
+}
+
+.map-grid-viewport {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr) !important; 
+  grid-template-rows: repeat(5, 1fr) !important;    
+  background-color: rgba(6, 1, 15, 0.7);
+  background-image: 
+    linear-gradient(rgba(219, 0, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(219, 0, 255, 0.1) 1px, transparent 1px);
+  background-size: 20% 20%; 
+  border: 1px solid rgba(219, 0, 255, 0.25);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;  
+  aspect-ratio: 1 / 1; 
+  align-self: center; 
+  justify-items: center;
+  align-items: center;
+}
+
+.gema-quantum-item {
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  font-size: 22px; 
+  filter: drop-shadow(0 0 8px #00f2fe);
+  animation: floatGem 2s infinite ease-in-out;
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================================
+   6. MOTOR DE RENDERIZADO DEL ALIEN (SPRITE Y SCANNERS)
+   ========================================================================== */
+.alien-character-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.alien-sprite-img {
+  width: 75%; 
+  height: 75%;       
+  object-fit: contain; 
+  filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.5)); 
+}
+
+.pulse-proximity-scanner {
+  position: absolute; 
+  width: 85%;      
+  height: 85%;
+  border: 2px solid rgba(0, 242, 254, 0.3); 
+  border-radius: 50%;
+  animation: radar 1.4s infinite linear;
+}
+
+/* ==========================================================================
+   7. TELEMETRÍA SECUNDARIA Y TEXTOS DE CONSOLA LOGS
+   ========================================================================== */
+.telemetry-timer-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 10px 14px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  color: #9d8db5;
+  margin-bottom: 12px;
+}
+
+.telemetry-timer-card span {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.telemetry-timer-card strong {
+  font-size: 18px;
+  color: #ffbd2e; 
+  text-shadow: 0 0 8px rgba(255, 189, 46, 0.3);
+}
+
+.console-screen-output,
+.telemetry-terminal-console {
+  background: #06010f !important;
+  border: 1px solid rgba(219, 0, 255, 0.2) !important;
+  border-radius: 8px;
+  font-family: 'Fira Code', monospace;
+  padding: 12px;
+  font-size: 12px;
+  color: #a6e22e; 
+  flex-grow: 1;
+  height: calc(100% - 55px); 
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   8. CAPAS DE CONTROL ABSOLUTO (SISTEMA DE VENTANAS MODALES)
+   ========================================================================== */
+.code-editor-container,
+.game-canvas-container,
+.canvas-recolector-view {
+  position: relative;
+  z-index: 5 !important;
+}
+
+.cyber-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(6, 1, 15, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2147483647 !important; 
+}
+
+.cyber-modal-card {
+  position: relative !important;
+  background: #110926 !important;
+  border: 2px solid #db00ff !important;
+  box-shadow: 0 0 45px rgba(219, 0, 255, 0.6) !important;
+  border-radius: 16px !important;
+  width: 550px !important;
+  max-width: 90% !important;
+  padding: 24px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  animation: modalSlideUp 0.25s ease-out forwards;
+  z-index: 2147483648 !important; 
+}
+
+.modal-cyber-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  border-bottom: 1px solid rgba(219, 0, 255, 0.3) !important;
+  padding-bottom: 12px !important;
+}
+
+.modal-cyber-header span {
+  color: #00f2fe !important;
+  font-weight: bold !important;
+  font-family: 'Fira Code', monospace !important;
+  letter-spacing: 1px;
+}
+
+.modal-close-btn {
+  background: transparent !important;
+  border: none !important;
+  color: #db00ff !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+}
+
+.modal-close-btn:hover { color: #ff5555 !important; }
+.modal-body-content h3 { color: #ffffff !important; margin-top: 0; margin-bottom: 8px; }
+.modal-body-content p { color: #b4a7d6 !important; font-size: 14px; }
+
+.modal-code-preview {
+  background: #060112 !important;
+  border: 1px solid rgba(0, 242, 254, 0.25) !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  margin: 15px 0 !important;
+  overflow-x: auto !important;
+}
+
+.modal-code-preview pre {
+  margin: 0 !important;
+  font-family: 'Fira Code', monospace !important;
+  font-size: 13px !important;
+  color: #ff79c6 !important;
+  line-height: 1.5;
+  text-align: left !important;
+}
+
+.alert-box-modal {
+  background: rgba(0, 242, 254, 0.06) !important;
+  border-left: 4px solid #00f2fe !important;
+  padding: 12px !important;
+  border-radius: 4px !important;
+  font-size: 13px !important;
+  color: #e2daff !important;
+  text-align: left !important;
+}
+
+.alert-box-modal code {
+  color: #50fa7b !important;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   9. HOJA DE ANIMACIONES Y MEDIA QUERIES RESPONSIVAS
+   ========================================================================== */
+@keyframes floatGem { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes radar { 0% { transform: scale(0.8); opacity: 1; } 100% { transform: scale(1.4); opacity: 0; } }
+@keyframes modalSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes statusPulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.2); opacity: 1; } }
+
+@keyframes cyberNeonPulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(219, 0, 255, 0.6); }
+  50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(0, 242, 254, 0.8); color: #f8f9fa; }
+}
+
+@media (max-width: 1024px) {
+  .game-level-workspace.nivel5-layout { grid-template-columns: 1fr; }
+  .simulation-workspace-split { grid-template-columns: 1fr; }
+  .map-grid-viewport { max-width: 340px; margin: 0 auto; }
+  .header-status-bar { min-width: 100%; flex-direction: column; gap: 8px; align-items: flex-start; }
 }
