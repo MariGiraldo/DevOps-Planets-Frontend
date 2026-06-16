@@ -9,7 +9,7 @@ import Victoria from '../pages/Victoria/Victoria'
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Bienvenida />} />
+     <Route path="/" element={<Bienvenida />} />
       
       {/* Ajustado a '/mundo' para que funcione con Bienvenida, MundoNiveles y Nivel1 */}
       <Route path="/mundo" element={<MundoNiveles />} />
