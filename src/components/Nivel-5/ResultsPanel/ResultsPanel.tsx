@@ -5,19 +5,18 @@ import './ResultsPanel.css';
 export const ResultsPanel: React.FC = () => {
   const { revealSolution, isLevelCompleted, consoleMessages } = useLevel5Store();
 
-  // Código de la solución que se va a formatear e iluminar
-  const javaSolutionCode = `int energiaTotal = 0;
-for (int celda = 1; celda <= 10; celda++) {
-    if (celda % 2 != 0) {
-        energiaTotal = energiaTotal + 12;
-        if (energiaTotal > 40) {
+  const javaSolutionCode = `int suma = 0;
+for (int i = 1; i <= n; i++) {
+    if (i % 2 == 0) {
+        int cuadrado = i * i;
+        suma += cuadrado;
+        if (suma > 300) {
             break;
         }
     }
 }
-System.out.println(energiaTotal);`;
+System.out.println(suma);`;
 
-  // El mismo motor regex optimizado de tu editor para no perder rendimiento
   const highlightJavaOutput = (text: string) => {
     if (!text) return '';
     let html = text
@@ -25,7 +24,7 @@ System.out.println(energiaTotal);`;
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
-    const regex = /(\/\/.*?)(?=\n|$)|(?:\b(for|if|break|int)\b)|(?:\b(System\.out\.println)\b)|(?:\b(energiaTotal|celda)\b)|(?:\b(\d+)\b)|(\*|\+|\b>|==|=|%|!=|;|\{|\})/g;
+    const regex = /(\/\/.*?)(?=\n|$)|(?:\b(for|if|break|int)\b)|(?:\b(System\.out\.println)\b)|(?:\b(suma|cuadrado|i|n)\b)|(?:\b(\d+)\b)|(\*|\+|\b>|==|=|\/|%|!=|;|\{|\})/g;
 
     return html.replace(regex, (match, comment, keyword, func, variable, number, operator) => {
       if (comment)  return `<span class="token-comment">${match}</span>`;
@@ -42,7 +41,6 @@ System.out.println(energiaTotal);`;
     <div className="results-inner-layout">
       <h2 className="results-panel-title">Resultado</h2>
       
-      {/* CONTENEDOR PRINCIPAL */}
       <div className="results-display-box">
         {revealSolution ? (
           <div className="revealed-solution-container animate-fade-in">
@@ -59,7 +57,7 @@ System.out.println(energiaTotal);`;
             </div>
             <div className="solution-footer-meta">
               <span className="expected-badge">OUTPUT ESPERADO:</span>
-              <code className="output-target-value">48</code>
+              <code className="output-target-value">220</code>
             </div>
           </div>
         ) : (
@@ -71,7 +69,6 @@ System.out.println(energiaTotal);`;
         )}
       </div>
 
-      {/* BOTÓN TERMINAR NIVEL ESTILO PÍLDORA PREMIUM */}
       <button 
         className={`btn-finish-level ${isLevelCompleted ? 'active-glow' : 'disabled-locked'}`}
         disabled={!isLevelCompleted}
