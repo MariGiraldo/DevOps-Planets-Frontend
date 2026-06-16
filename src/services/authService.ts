@@ -1,4 +1,4 @@
-import API_BASE_URL from './api';
+import api from './api';
 
 interface AuthResponse {
   token: string;
@@ -10,54 +10,29 @@ export const login = async (
   nombreUsuario: string,
   password: string
 ): Promise<AuthResponse> => {
-
-  const response = await fetch(
-    `${API_BASE_URL}/auth/login`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        nombreUsuario,
-        password
-      })
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      'Usuario o contraseña incorrectos'
-    );
+  try {
+    // api ya sabe que la URL base termina en /api
+    const response = await api.post<AuthResponse>('/auth/login', {
+      nombreUsuario,
+      password,
+    });
+    return response.data; // Axios guarda la respuesta del servidor en .data
+  } catch (error) {
+    throw new Error('Usuario o contraseña incorrectos');
   }
-
-  return response.json();
 };
 
 export const register = async (
   nombreUsuario: string,
   password: string
 ): Promise<AuthResponse> => {
-
-  const response = await fetch(
-    `${API_BASE_URL}/auth/signup`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        nombreUsuario,
-        password
-      })
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      'No fue posible registrar el usuario'
-    );
+  try {
+    const response = await api.post<AuthResponse>('/auth/signup', {
+      nombreUsuario,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error('No fue posible registrar el usuario');
   }
-
-  return response.json();
 };
