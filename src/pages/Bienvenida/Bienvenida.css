@@ -1,0 +1,173 @@
+.bienvenida-container {
+
+  min-height: 100vh;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+}
+
+.bienvenida-content {
+
+  width: 100%;
+  max-width: 1200px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 0 60px;
+}
+
+.bienvenida-texto {
+
+  flex: 1;
+
+  color: white;
+}
+
+.bienvenida-texto h1 {
+
+  font-size: 5rem;
+
+  font-weight: 900;
+
+  line-height: 1.05;
+
+  text-transform: uppercase;
+
+  letter-spacing: 2px;
+
+  margin-bottom: 25px;
+
+  color: white;
+
+  text-shadow:
+    0 0 15px rgba(74, 222, 128, 0.4),
+    0 0 30px rgba(74, 222, 128, 0.2);
+}
+
+.bienvenida-texto p {
+
+  font-size: 1.8rem;
+
+  margin-bottom: 40px;
+
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.bienvenida-texto button {
+
+  padding: 18px 50px;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf0,
+    #4338ca
+  );
+
+  color: white;
+
+  font-size: 1.3rem;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  box-shadow:
+    0 0 20px rgba(91, 92, 240, 0.5);
+}
+
+.bienvenida-texto button:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 0 30px rgba(91, 92, 240, 0.8);
+}
+
+.bienvenida-imagen {
+
+  flex: 1;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.bienvenida-imagen img {
+
+  width: 320px;
+
+  max-width: 100%;
+
+  animation: flotar 3s ease-in-out infinite;
+
+  filter:
+    drop-shadow(0 0 20px rgba(74, 222, 128, 0.35))
+    drop-shadow(0 0 40px rgba(74, 222, 128, 0.15));
+}
+
+@keyframes flotar {
+
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 768px) {
+
+  .bienvenida-content {
+
+    flex-direction: column-reverse;
+
+    text-align: center;
+
+    gap: 30px;
+
+    padding: 0 20px;
+  }
+
+  .bienvenida-texto h1 {
+
+    font-size: 2.8rem;
+  }
+
+  .bienvenida-texto p {
+
+    font-size: 1.3rem;
+  }
+
+  .bienvenida-imagen img {
+
+    width: 220px;
+  }
+
+  .bienvenida-texto button {
+
+    width: 100%;
+  }
+}

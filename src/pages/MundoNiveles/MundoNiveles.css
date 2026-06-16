@@ -1,0 +1,94 @@
+.mundo-container {
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  position: relative;
+}
+
+.header { position: absolute; top: 20px; width: 100%; text-align: center; z-index: 10; }
+.header h1 { margin: 0; font-size: 28px; background: linear-gradient(90deg, #00f0ff, #ff00ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* OVNI - Ahora posicionado sobre la bandera */
+.ovni {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  z-index: 50;
+  transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+/* Coordenadas del OVNI: alineadas con la parte superior de la bandera */
+.ovni-pos-1 { top: 20%; left: 19%; }
+.ovni-pos-2 { top: 12%; left: 44%; }
+.ovni-pos-3 { top: 50%; left: 14%; }
+.ovni-pos-4 { top: 35%; left: 69%; }
+.ovni-pos-5 { top: 65%; left: 49%; }
+
+.mapa { width: 100%; height: 100%; position: relative; }
+
+.nivel {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  overflow: visible;
+}
+
+/* POSICIONES CON MÁS ESPACIO */
+.nivel:nth-child(1) { top: 35%; left: 20%; } /* Nivel 1 más arriba */
+.nivel:nth-child(2) { top: 25%; left: 45%; }
+.nivel:nth-child(3) { top: 65%; left: 15%; }
+.nivel:nth-child(4) { top: 45%; left: 70%; }
+.nivel:nth-child(5) { top: 75%; left: 50%; }
+
+/* BANDERA ARRIBA */
+.nivel::before {
+  content: "";
+  position: absolute;
+  top: -65px;
+  left: 55px; /* Centrado */
+  width: 6px;
+  height: 70px;
+  background: linear-gradient(90deg, #555, #ccc, #555);
+  border-radius: 3px;
+  z-index: 20;
+}
+
+.nivel::after {
+  content: "NIVEL " attr(data-id);
+  position: absolute;
+  top: -65px;
+  left: 60px;
+  width: 80px;
+  height: 35px;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 70%, 85% 100%, 100% 70%, 0% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  color: white;
+  z-index: 25;
+}
+
+.desbloqueado { background: linear-gradient(135deg, #00f0ff, #0066ff); }
+.completado { background: linear-gradient(135deg, #00ff88, #00aa55); }
+.bloqueado { background: #222; opacity: 0.8; }
+
+.bloqueado::after { background: linear-gradient(135deg, #ff4d4d, #b30000); }
+.desbloqueado::after, .completado::after { background: linear-gradient(135deg, #00e676, #00796b); }

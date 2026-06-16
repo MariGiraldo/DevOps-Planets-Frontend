@@ -1,0 +1,272 @@
+/* ==========================================================================
+   PANEL DERECHO: COMPILADOR DE CÓDIGO AUTOMÁTICO (CodeEditor.css)
+   ========================================================================== */
+.code-editor-container {
+  display: flex;
+  flex-direction: column;
+  background: rgba(22, 11, 41, 0.55); 
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(219, 0, 255, 0.25); 
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.editor-header {
+  background-color: rgba(12, 4, 26, 0.5); 
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  color: #9d8db5; 
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.file-name { color: #ffbd2e; font-weight: bold; }
+
+.editor-workspace-wrapper {
+  position: relative;
+  height: 310px; 
+  background: rgba(6, 1, 15, 0.4);
+}
+
+/* ALINEACIÓN PERFECTA DE CAPAS SUPERPUESTAS */
+.editor-textarea, 
+.editor-highlight-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 24px !important;
+  box-sizing: border-box !important;
+  font-family: 'Fira Code', 'Courier New', monospace !important;
+  font-size: 14px !important;
+  line-height: 22px !important; 
+  margin: 0 !important;
+  tab-size: 4 !important;
+  white-space: pre !important; 
+  word-wrap: normal !important;
+  overflow: auto !important; 
+}
+
+/* Capa del Input: invisible para el ojo, captura teclado y cursor */
+.editor-textarea {
+  background: transparent !important;
+  color: transparent !important; 
+  caret-color: #00f2fe; /* Cursor cian brillante titilando */
+  border: none !important;
+  resize: none !important;
+  outline: none !important;
+  z-index: 2;
+  scrollbar-width: none; 
+}
+.editor-textarea::-webkit-scrollbar { display: none; }
+
+/* Capa del Código de Colores (Z-Index Inferior) */
+.editor-highlight-layer {
+  background: transparent;
+  z-index: 1;
+  pointer-events: none; 
+  color: #ffffff; /* Texto plano por defecto (como los nombres de variables comunes) */
+}
+
+.editor-highlight-layer code {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* PALETA DE COLORES CYBERPUNK (Estilo Drácula / Synthwave) */
+.token-keyword { color: #db00ff !important; font-weight: bold; }   /* for, if, break, in, int */
+.token-function { color: #00f2fe !important; }                     /* print, range, println */
+.token-variable { color: #ffbd2e !important; }                     /* celda, energiaTotal */
+.token-number { color: #ff5555 !important; }                       /* 0, 1, 10, 12, 40 */
+.token-operator { color: #ff79c6 !important; }                     /* +, *, =, >, %, <=, != */
+.token-comment { color: #6272a4 !important; font-style: italic; }   /* Comentarios en gris azulado */
+
+/* ==========================================================================
+   COMPORTAMIENTO DE LOS BOTONES DE ACCIÓN (ESTILO CORAL Y CIAN DE LA IMAGEN)
+   ========================================================================== */
+.editor-actions {
+  background-color: rgba(12, 4, 26, 0.4);
+  padding: 14px 20px;
+  display: flex;
+  gap: 10px; /* Separación compacta exacta */
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Estilo unificado para los botones tipo píldora compacta */
+.btn-execute,
+.btn-clear {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 18px;
+  border-radius: 5px; /* Redondeado idéntico a las capturas de referencia */
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón Ejecutar: Color Coral/Rosa de la captura */
+.btn-execute {
+  background-color: #ff4b72 !important; 
+  color: #ffffff !important;
+}
+
+.btn-execute:hover {
+  background-color: #ff2a57 !important;
+  box-shadow: 0 0 12px rgba(255, 75, 114, 0.4);
+}
+
+/* Botón Limpiar: Color Cian de la captura */
+.btn-clear {
+  background-color: #00cbd6 !important; 
+  color: #05020a !important;
+  box-shadow: none;
+}
+
+.btn-clear:hover {
+  background-color: #00f2fe !important;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+}
+
+/* Mantenemos el estilo por si usas el botón secundario original */
+.btn-hint-modal {
+  background-color: rgba(219, 0, 255, 0.15);
+  color: #db00ff;
+  border: 1px solid rgba(219, 0, 255, 0.4);
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* ==========================================================================
+   INTERFAZ MODAL DE RESPALDO DE JAVA (Fijada ARRIBA de todo)
+   ========================================================================== */
+
+/* Capa de fondo que bloquea e inhabilita el fondo (Overlay) */
+.cyber-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(6, 1, 15, 0.9) !important; /* Más oscuro para aislar la vista */
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 999999 !important; /* Capa máxima absoluta de pantalla */
+}
+
+/* Tarjeta interna del Modal (Card) */
+.cyber-modal-card {
+  position: relative !important;
+  background: rgba(22, 11, 41, 0.98) !important; /* Fondo violeta sólido no transparente */
+  border: 2px solid #db00ff !important; /* Neón rosa */
+  box-shadow: 0 0 40px rgba(219, 0, 255, 0.6) !important;
+  border-radius: 16px !important;
+  width: 550px !important;
+  max-width: 90% !important;
+  padding: 24px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  
+  /* Un paso más arriba de su propio fondo overlay */
+  z-index: 1000000 !important; 
+  animation: modalSlideUp 0.25s ease-out forwards !important;
+}
+
+/* Asegurar colores internos legibles (Elimina herencia transparente) */
+.modal-cyber-header {
+  border-bottom: 1px solid rgba(219, 0, 255, 0.3) !important;
+  padding-bottom: 12px !important;
+}
+
+.modal-cyber-header span {
+  color: #00f2fe !important; /* Fuerza las letras cian */
+}
+
+.modal-body-content h3 {
+  color: #ffbd2e !important; /* Título Amarillo Oro */
+  margin-top: 0 !important;
+}
+
+.modal-body-content p {
+  color: #ffffff !important; /* Fuerza los textos descriptivos a blanco puro */
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+/* Bloque contenedor de la previsualización del código Java del Modal */
+.modal-code-preview {
+  background: #06010f !important;
+  border: 1px solid rgba(0, 242, 254, 0.4) !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  margin: 16px 0 !important;
+  text-align: left !important;
+}
+
+.modal-code-preview pre {
+  margin: 0 !important;
+  font-family: 'Fira Code', monospace !important;
+  font-size: 13px !important;
+  color: #50fa7b !important; /* Verde consola brillante */
+  line-height: 1.5 !important;
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.editor-header {
+  background-color: rgba(12, 4, 26, 0.5); 
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Alinea el título verticalmente con el nombre del archivo */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Título de sección idéntico en tamaño, color y fuente al de la izquierda */
+.editor-panel-title {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #00f2fe !important;
+  margin: 0 !important; /* Resetea márgenes para alinearse bien en la barra */
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Efecto glow sutil para el icono del editor */
+.title-icon {
+  font-size: 16px;
+  display: inline-block;
+}
+.cyan-glow {
+  filter: drop-shadow(0 0 4px rgba(0, 242, 254, 0.6));
+}
+
+.file-name { 
+  color: #ffbd2e; 
+  font-weight: bold; 
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+}
