@@ -11,7 +11,7 @@ function App() {
     // Creamos la instancia única del audio para toda la aplicación
     const backgroundMusic = new Audio(mapaLoopAudio);
     backgroundMusic.loop = true;       // Reproducción infinita
-    backgroundMusic.volume = 0.4;      // Volumen moderado al 40%
+    backgroundMusic.volume = 0.4;      // Volumen 
 
     const playAudio = () => {
       backgroundMusic.play().catch((error) => {
