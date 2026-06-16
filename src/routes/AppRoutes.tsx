@@ -11,6 +11,7 @@ import Nivel3 from '../pages/Nivel3/Nivel3';
 import Nivel4 from '../pages/Nivel4/Nivel4';
 import Nivel5 from '../pages/Nivel5/Nivel5';
 import MundoNiveles from '../pages/MundoNiveles/MundoNiveles';
+import TeoriaN1 from '../pages/Teoria-N1/Teoria-N1';
 
 export default function AppRoutes() {
   return (
@@ -25,6 +26,8 @@ export default function AppRoutes() {
       <Route path="/nivel3" element={<Nivel3 />} />
       <Route path="/nivel4" element={<Nivel4 />} />
       <Route path="/nivel5" element={<Nivel5 />} />
+
+      <Route path="/teoria-n1" element={<TeoriaN1 />} />
 
       <Route path="/mundo-niveles" element={<MundoNiveles />} />
 
