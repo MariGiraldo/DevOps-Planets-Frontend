@@ -26,7 +26,7 @@ export default function AppRoutes() {
       <Route path="/nivel4" element={<Nivel4 />} />
       <Route path="/nivel5" element={<Nivel5 />} />
 
-      <Route path="/mundo-niveles" element={<MundoNiveles />} />
+      <Route path="/mundo" element={<MundoNiveles />} />
 
       {/* Redirección por si el usuario escribe cualquier otra ruta en la URL */}
       <Route path="*" element={<Navigate to="/" replace />} />
