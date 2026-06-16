@@ -25,7 +25,7 @@ function Nivel1() {
   const [code, setCode] = useState(INITIAL_CODE); // Initialized with starter code
   const [output, setOutput] = useState('Aquí se mostrará el resultado de la ejecución.');
   const [isCorrect, setIsCorrect] = useState(false);
-  const [timer, setTimer] = useState(180);
+  const [timer, setTimer] = useState(5);
   const [revealEnabled, setRevealEnabled] = useState(false);
   const [responseUsed, setResponseUsed] = useState(false);
   const token = localStorage.getItem('token');
@@ -106,7 +106,7 @@ function Nivel1() {
 
   const handleReveal = () => {
     if (!revealEnabled || responseUsed) return;
-    setCode(SOLUTION_CODE); // Insert solution code into the editor
+    setCode(nivel?.codigoSolucion || ''); // Insert solution code into the editor
     setResponseUsed(true);
     setRevealEnabled(false);
     setOutput('💡 Solución insertada en el editor. Ajusta y ejecuta para continuar.');
