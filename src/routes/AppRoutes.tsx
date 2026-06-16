@@ -15,7 +15,7 @@ import MundoNiveles from '../pages/MundoNiveles/MundoNiveles';
 export default function AppRoutes() {
   return (
     <Routes>
-
+      <Route path="/" element={<Bienvenida />} />
       <Route path="/login" element={<Login />} />
       <Route path="/registro" element={<Registro />} />
 
