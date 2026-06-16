@@ -3,18 +3,18 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import './Nivel2.css'
 
-const INITIAL_CODE = `int combustible = 50;
-int extra = 20;`
+const INITIAL_CODE = `int numero = 8;`
 
 const SOLUTION_CODE = `public class Main {
     public static void main(String[] args) {
 
-        int combustible = 50;
-        int extra = 20;
+        int numero = 8;
 
-        int total = combustible + extra;
-
-        System.out.println(total);
+        if (numero % 2 == 0) {
+            System.out.println("Es par");
+        } else {
+            System.out.println("Es impar");
+        }
     }
 }`
 
@@ -27,11 +27,8 @@ function Nivel2() {
   )
 
   const [isCorrect, setIsCorrect] = useState(false)
-
   const [timer, setTimer] = useState(180)
-
   const [revealEnabled, setRevealEnabled] = useState(false)
-
   const [responseUsed, setResponseUsed] = useState(false)
 
   useEffect(() => {
@@ -42,7 +39,6 @@ function Nivel2() {
           clearInterval(interval)
           return 0
         }
-
         return current - 1
       })
     }, 1000)
@@ -53,7 +49,6 @@ function Nivel2() {
   const formattedTimer = useMemo(() => {
     const minutes = Math.floor(timer / 60)
     const seconds = timer % 60
-
     return `${minutes}:${seconds.toString().padStart(2, '0')}`
   }, [timer])
 
@@ -61,19 +56,15 @@ function Nivel2() {
     const normalized = code.replace(/\s+/g, '').toLowerCase()
 
     const valid =
-      normalized.includes('intcombustible=50') &&
-      normalized.includes('intextra=20') &&
-      normalized.includes('inttotal=combustible+extra')
+      normalized.includes('intnumero=8') &&
+      normalized.includes('numero%2==0') &&
+      normalized.includes('espar')
 
     if (valid) {
-      setOutput(
-        '✅ ¡Correcto! Has calculado correctamente el combustible total.'
-      )
+      setOutput('✅ ¡Correcto! Has identificado correctamente si es par.')
       setIsCorrect(true)
     } else {
-      setOutput(
-        '❌ Debes crear una variable llamada total que almacene combustible + extra.'
-      )
+      setOutput('❌ Debes usar (numero % 2 == 0) para validar si es par.')
       setIsCorrect(false)
     }
   }
@@ -85,19 +76,17 @@ function Nivel2() {
     setResponseUsed(true)
     setRevealEnabled(false)
 
-    setOutput(
-      '💡 Solución insertada en el editor. Ejecuta nuevamente para validar.'
-    )
+    setOutput('💡 Solución insertada. Ejecuta nuevamente.')
   }
 
   const handleFinish = () => {
     if (!isCorrect) return
-
     navigate('/mundo')
   }
 
   return (
     <div className="nivel2-page">
+
       <div className="nivel-header">
         <div>
           <button
@@ -107,10 +96,10 @@ function Nivel2() {
             ← Volver al mapa
           </button>
 
-          <h1>Nivel 2: Variables y Operaciones</h1>
+          <h1>Nivel 2: Condicionales Básicas</h1>
 
           <p>
-            Calcula el combustible total necesario para llegar a Marte.
+            Determina si un número es par o impar usando el operador módulo.
           </p>
         </div>
 
@@ -121,40 +110,35 @@ function Nivel2() {
       </div>
 
       <div className="nivel-grid">
+
+        {/* TEORÍA */}
         <section className="panel theory-panel">
           <h2>Teoría</h2>
 
           <p>
-            Las variables también almacenan números y permiten realizar
-            operaciones matemáticas.
+            El operador <strong>%</strong> (módulo) permite obtener el residuo de una división.
           </p>
 
-          <pre>
-            <code>
-{`int combustible = 50;
-int extra = 20;
-
-int total = combustible + extra;`}
-            </code>
-          </pre>
+          <p>
+            Si un número dividido entre 2 tiene residuo 0, entonces es un número par.
+          </p>
 
           <div className="challenge-box">
-            <h3>Misión Espacial</h3>
+            <h3>💡 Misión</h3>
 
             <p>
-              Calcula el combustible total sumando las variables
-              <strong> combustible </strong>
-              y
-              <strong> extra</strong>.
+              Debes verificar si el número es par usando una condición if.
+            </p>
+
+            <p>
+              Ejemplo: <strong>numero % 2 == 0</strong>
             </p>
           </div>
 
           <div className="actions-row">
             <Button
               onClick={() =>
-                setOutput(
-                  '📌 Pista: Crea una variable llamada total y asígnale combustible + extra.'
-                )
+                setOutput('📌 Pista: usa numero % 2 == 0')
               }
             >
               Pista
@@ -165,13 +149,12 @@ int total = combustible + extra;`}
               onClick={handleReveal}
               disabled={!revealEnabled || responseUsed}
             >
-              {responseUsed
-                ? 'Respuesta usada'
-                : 'Mostrar respuesta'}
+              {responseUsed ? 'Respuesta usada' : 'Mostrar respuesta'}
             </Button>
           </div>
         </section>
 
+        {/* EDITOR */}
         <section className="panel editor-panel">
           <h2>Editor</h2>
 
@@ -184,7 +167,7 @@ int total = combustible + extra;`}
 
           <div className="editor-buttons">
             <Button onClick={handleExecute}>
-              Ejecutar Compilador Java
+              Ejecutar Java
             </Button>
 
             <Button
@@ -195,17 +178,16 @@ int total = combustible + extra;`}
             </Button>
           </div>
         </section>
+
       </div>
 
+      {/* RESULTADO */}
       <div className="resultado-grid">
+
         <section className="panel result-panel">
           <h2>Resultado</h2>
 
-          <div
-            className={`result-box ${
-              isCorrect ? 'success' : 'error'
-            }`}
-          >
+          <div className={`result-box ${isCorrect ? 'success' : 'error'}`}>
             {output}
           </div>
 
@@ -217,15 +199,12 @@ int total = combustible + extra;`}
           </Button>
         </section>
 
+        {/* ANIMACIÓN */}
         <section className="panel animation-panel">
-          <h2>Viaje a Marte</h2>
+          <h2>Animación</h2>
 
           <div className="space-animation">
-            <div
-              className={`rocket ${
-                isCorrect ? 'rocket-fly' : ''
-              }`}
-            >
+            <div className={`rocket ${isCorrect ? 'rocket-fly' : ''}`}>
               🚀
             </div>
 
@@ -233,10 +212,10 @@ int total = combustible + extra;`}
           </div>
 
           <p>
-            Cuando resuelvas el ejercicio correctamente,
-            el cohete llegará a Marte.
+            Si es correcto, el cohete despega.
           </p>
         </section>
+
       </div>
     </div>
   )
