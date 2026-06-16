@@ -288,3 +288,117 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== Animación Galaga ===== */
+.galaga-stage {
+  position: relative;
+  height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 20%, rgba(30, 41, 90, 0.5), rgba(5, 10, 25, 0.95));
+  border: 1px solid rgba(165, 243, 255, 0.15);
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, white, transparent),
+    radial-gradient(2px 2px at 90px 80px, white, transparent),
+    radial-gradient(1px 1px at 150px 40px, white, transparent),
+    radial-gradient(2px 2px at 220px 100px, white, transparent),
+    radial-gradient(1px 1px at 280px 20px, white, transparent),
+    radial-gradient(2px 2px at 320px 130px, white, transparent);
+  background-repeat: repeat;
+  opacity: 0.5;
+  animation: starScroll 6s linear infinite;
+}
+
+@keyframes starScroll {
+  from { background-position: 0 0; }
+  to { background-position: 0 200px; }
+}
+
+.ship {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-90deg);
+  font-size: 2.2rem;
+  filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.7));
+  animation: shipIdle 2s ease-in-out infinite;
+  z-index: 5;
+}
+
+@keyframes shipIdle {
+  0%, 100% { bottom: 16px; }
+  50% { bottom: 22px; }
+}
+
+.invader {
+  position: absolute;
+  top: -40px;
+  font-size: 1.8rem;
+  filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.6));
+  animation: invaderDrop 3.5s ease-in infinite;
+}
+
+.inv-1 { left: 25%; animation-delay: 0s; }
+.inv-2 { left: 50%; animation-delay: 0.6s; }
+.inv-3 { left: 72%; animation-delay: 1.2s; }
+
+@keyframes invaderDrop {
+  0%   { top: -40px; opacity: 1; transform: translateX(0); }
+  45%  { top: 90px;  transform: translateX(10px); }
+  55%  { top: 90px;  transform: translateX(-10px); }
+  100% { top: 220px; opacity: 0; }
+}
+
+.laser {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  width: 4px;
+  height: 0;
+  background: linear-gradient(to top, #00e5ff, transparent);
+  transform: translateX(-50%);
+  animation: laserFire 0.5s ease-out forwards;
+  box-shadow: 0 0 8px #00e5ff;
+  z-index: 4;
+}
+
+@keyframes laserFire {
+  from { height: 0; bottom: 50px; }
+  to   { height: 140px; bottom: 50px; }
+}
+
+.boom {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  font-size: 2.5rem;
+  animation: boomPop 0.6s ease-out 0.5s forwards;
+}
+
+@keyframes boomPop {
+  0%   { transform: translateX(-50%) scale(0); opacity: 0; }
+  50%  { transform: translateX(-50%) scale(1.4); opacity: 1; }
+  100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+.galaga-stage.is-victory .ship {
+  animation: shipVictory 1.2s ease-in-out infinite;
+}
+
+@keyframes shipVictory {
+  0%, 100% { bottom: 16px; }
+  50% { bottom: 30px; }
+}
+
+.galaga-caption {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
