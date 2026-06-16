@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./MundoNiveles.css";
 import ProgressService, { Nivel } from "../../services/ProgressService";
 import fondoMapa from "../../assets/backgrounds/Fondo.jpeg"; 
-import omniImg from "../../assets/icons/omni.png";
+import omniImg from "../../assets/images/omni.png";
 
 const MundoNiveles: React.FC = () => {
   const service = ProgressService.getInstance();
