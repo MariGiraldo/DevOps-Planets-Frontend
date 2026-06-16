@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useLevel5Store } from '../../../pages/Nivel5/state/level5Store';
 // 1. IMPORTA LA IMAGEN USANDO LA RUTA RELATIVA CORRECTA:
-import omniAlienImg from '../../../assets/icons/omni.png'; 
+import omniAlienImg from '../../../assets/images/omni.png'; 
 import './GameCanvas.css';
 
 export const GameCanvas: React.FC = () => {
