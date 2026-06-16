@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import './Nivel1.css'
-import React from 'react'
+
+
 
 const INITIAL_CODE = `String planeta = "Marte";`
 const SOLUTION_CODE = `public class Main {
@@ -63,15 +64,15 @@ function Nivel1() {
   }
 
   const handleFinish = () => {
-    if (!isCorrect) return
-    navigate('/mundo')
-  }
+  if (!isCorrect) return
+  navigate('/mundo-niveles')
+}
 
   return (
-    <div className="nivel nivel1-page">
+    <div className="nivel1-page">
       <div className="nivel-header">
         <div>
-          <button className="back-button" onClick={() => navigate('/mundo')}>
+          <button className="back-button" onClick={() => navigate('/mundo-niveles')}>
             ← Volver al mapa
           </button>
           <h1>Nivel 1: Guardar información</h1>
@@ -98,7 +99,7 @@ function Nivel1() {
             <p>Declara una variable String llamada <strong>planeta</strong> y guarda en ella el texto <strong>"Marte"</strong>. Luego ejecuta el código.</p>
           </div>
           <div className="actions-row">
-            <Button onClick={() => setOutput('📌 Pista: Usa <strong>String</strong> seguido del nombre de la variable y el valor entre comillas.')}>Pista</Button>
+            <Button onClick={() => setOutput('📌 Pista: Usa "String" seguido del nombre de la variable y el valor entre comillas.')}>Pista</Button>
             <Button variant="secondary" onClick={handleReveal} disabled={!revealEnabled || responseUsed}>
               {responseUsed ? 'Respuesta usada' : 'Mostrar respuesta'}
             </Button>

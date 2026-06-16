@@ -105,18 +105,18 @@ const handleExecute = () => {
   const handleFinish = () => {
     if (!isCorrect) return
 
-    navigate('/mundo')
+    navigate('/mundo-niveles')
   }
 
   return (
-    <div className="nivel nivel4-page">
+    <div className="nivel4-page">
 
       <div className="nivel-header">
 
         <div>
           <button
             className="back-button"
-            onClick={() => navigate('/mundo')}
+            onClick={() => navigate('/mundo-niveles')}
           >
             ← Volver al mapa
           </button>
