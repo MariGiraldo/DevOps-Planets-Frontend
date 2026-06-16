@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import './Bienvenida.css';
 
 import fondo from '../../assets/backgrounds/Fondo.jpeg';
-import alien from '../../assets/images/alien.jpeg';
+import alien from '../../assets/images/omni.png';
 
 export default function Bienvenida() {
 
@@ -21,9 +21,13 @@ export default function Bienvenida() {
 
         <div className="bienvenida-texto">
 
-          <h1>
-            Explora Marte y domina la programación
-          </h1>
+         <h1>
+  EXPLORA MARTE Y
+  <br />
+  DOMINA LA
+  <br />
+  PROGRAMACIÓN
+</h1>
 
           <p>
             Bienvenido, explorador

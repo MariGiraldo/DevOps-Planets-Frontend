@@ -4,7 +4,7 @@ import { login } from '../../services/authService';
 import './Login.css';
 
 import fondo from '../../assets/backgrounds/Fondo.jpeg';
-import alien from '../../assets/images/alien.jpeg';
+import alien from '../../assets/images/omni.png';
 
 export default function Login() {
 
@@ -68,16 +68,12 @@ export default function Login() {
 
       <div className="login-card">
 
-        <img
-          src={alien}
-          alt="Alien"
-          className="alien-image"
-        />
-
-        <h1>DEVOPS PLANET</h1>
+        <h1>
+          ACCESO A LA BASE MARCIANA
+        </h1>
 
         <p>
-          Accede a la base marciana
+          Inicia sesión para continuar tu misión
         </p>
 
         <form onSubmit={handleLogin}>
@@ -138,6 +134,12 @@ export default function Login() {
         </p>
 
       </div>
+
+      <img
+        src={alien}
+        alt="Alien"
+        className="alien-side"
+      />
 
     </div>
 

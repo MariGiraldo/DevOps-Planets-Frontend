@@ -2,10 +2,14 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../../services/authService';
 
+import alien from '../../assets/images/omni.png';
+
+
+
 import './Registro.css';
 
 import fondo from '../../assets/backgrounds/Fondo.jpeg';
-import alien from '../../assets/images/alien.jpeg';
+
 
 export default function Registro() {
 
@@ -81,14 +85,10 @@ export default function Registro() {
 
       <div className="registro-card">
 
-        <img
-          src={alien}
-          alt="Alien"
-          className="alien-image"
-        />
-
         <h1>
-          Crea tu cuenta, explorador
+          CREA TU CUENTA
+          <br />
+          DE EXPLORADOR
         </h1>
 
         <form
@@ -162,9 +162,17 @@ export default function Registro() {
 
         </p>
 
-      </div>
+      
+              </div>
+
+      <img
+        src={alien}
+        alt="Marciano"
+        className="alien-side"
+      />
 
     </div>
 
   );
 }
+   

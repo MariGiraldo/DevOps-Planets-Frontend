@@ -1,5 +1,4 @@
 .registro-container {
-
   min-height: 100vh;
 
   display: flex;
@@ -9,11 +8,14 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  padding: 20px;
 }
 
 .registro-card {
 
-  width: 400px;
+  width: 100%;
+  max-width: 500px;
 
   padding: 40px;
 
@@ -21,34 +23,40 @@
   flex-direction: column;
   align-items: center;
 
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(8, 10, 50, 0.70);
 
   backdrop-filter: blur(12px);
 
-  border-radius: 20px;
+  border-radius: 30px;
+
+  border: 2px solid rgba(255, 255, 255, 0.15);
 
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.4);
+    0 0 25px rgba(74, 222, 128, 0.25),
+    0 0 60px rgba(74, 222, 128, 0.15),
+    0 0 100px rgba(99, 102, 241, 0.10);
 
   color: white;
+
+  overflow: hidden;
+
+  position: relative;
 }
-
-.alien-image {
-
-  width: 120px;
-
-  margin-bottom: 20px;
-
-  border-radius: 50%;
-}
-
 .registro-card h1 {
 
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 
   color: #4ade80;
 
   text-align: center;
+
+  font-size: 2.4rem;
+
+  line-height: 1.1;
+
+  text-transform: uppercase;
+
+  font-weight: 800;
 }
 
 .registro-card form {
@@ -58,44 +66,58 @@
   display: flex;
   flex-direction: column;
 
-  gap: 15px;
+  gap: 18px;
 }
 
 .registro-card input {
 
-  padding: 12px;
+  width: 100%;
+
+  padding: 18px 20px;
 
   border: none;
 
-  border-radius: 10px;
+  border-radius: 15px;
 
   outline: none;
 
-  font-size: 16px;
+  font-size: 1.1rem;
+
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .registro-card button {
 
-  padding: 12px;
+  width: 100%;
+
+  padding: 18px;
 
   border: none;
 
-  border-radius: 10px;
+  border-radius: 15px;
 
-  background-color: #4ade80;
+  background: #4ade80;
 
   color: black;
+
+  font-size: 1.3rem;
 
   font-weight: bold;
 
   cursor: pointer;
 
-  transition: 0.3s;
+  transition: all 0.3s ease;
+
+  box-shadow:
+    0 0 15px #4ade80,
+    0 0 35px rgba(74, 222, 128, 0.8);
 }
 
 .registro-card button:hover {
 
-  background-color: #22c55e;
+  transform: translateY(-3px);
+
+  background: #22c55e;
 }
 
 .registro-card button:disabled {
@@ -107,21 +129,88 @@
 
 .error-message {
 
-  color: #ef4444;
+  color: #ff6b6b;
 
   text-align: center;
+
+  font-size: 1rem;
 }
 
 .login-link {
 
-  margin-top: 20px;
+  margin-top: 25px;
+
+  font-size: 1.2rem;
+
+  color: white;
 }
 
 .login-link a {
 
   color: #4ade80;
 
-  text-decoration: none;
-
   font-weight: bold;
+
+  text-decoration: none;
+}
+
+.login-link a:hover {
+
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+
+  .registro-card {
+
+    max-width: 95%;
+    padding: 30px;
+  }
+
+  .registro-card h1 {
+
+    font-size: 2.2rem;
+  }
+}
+/* MARCIANO LATERAL */
+
+.registro-container {
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.alien-side {
+
+  position: absolute;
+
+  right: 60px;
+
+  bottom: 30px;
+
+  width: 240px;
+
+  z-index: 2;
+
+  animation: flotar 3s ease-in-out infinite;
+
+  filter:
+    drop-shadow(0 0 15px rgba(74, 222, 128, 0.4))
+    drop-shadow(0 0 30px rgba(74, 222, 128, 0.2));
+}
+
+@keyframes flotar {
+
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }
