@@ -5,7 +5,12 @@ import './Nivel1.css'
 
 
 
-const INITIAL_CODE = `String planeta = "Marte";`
+const INITIAL_CODE = `public class Main {
+    public static void main(String[] args) {
+        // Escribe tu código abajo de esta línea ...
+        System.out.println("Planeta: " + planeta);
+    }
+}`
 const SOLUTION_CODE = `public class Main {
     public static void main(String[] args) {
         String planeta = "Marte";
@@ -89,11 +94,7 @@ function Nivel1() {
           <h2>Teoría</h2>
           <p>Una variable es un espacio en memoria donde se guarda información para usarla luego.</p>
           <p>En Java, primero defines el tipo, después el nombre y finalmente el valor.</p>
-          <pre>
-            <code>
-              String planeta = "Marte";
-            </code>
-          </pre>
+          
           <div className="challenge-box">
             <h3>Ejercicio</h3>
             <p>Declara una variable String llamada <strong>planeta</strong> y guarda en ella el texto <strong>"Marte"</strong>. Luego ejecuta el código.</p>
@@ -135,12 +136,26 @@ function Nivel1() {
         </section>
 
         <section className="panel animation-panel">
-          <h2>Animación</h2>
-          <div className="animation-placeholder">
-            <div className="alien-icon">👾</div>
-            <p>Aquí irá la animación del tema en niveles futuros.</p>
-          </div>
-        </section>
+  <h2>Misión Espacial</h2>
+  <div className={`galaga-stage ${isCorrect ? 'is-victory' : ''}`}>
+    <div className="stars" />
+    <div className="ship">🚀</div>
+    {!isCorrect && (
+      <>
+        <div className="invader inv-1">👾</div>
+        <div className="invader inv-2">👾</div>
+        <div className="invader inv-3">👾</div>
+      </>
+    )}
+    {isCorrect && <div className="laser" />}
+    {isCorrect && <div className="boom">💥</div>}
+  </div>
+  <p className="galaga-caption">
+    {isCorrect
+      ? '¡Código correcto! Nave despegando hacia el aprendizaje.'
+      : 'Resuelve el ejercicio para activar el ataque.'}
+  </p>
+</section>
       </div>
     </div>
   )
