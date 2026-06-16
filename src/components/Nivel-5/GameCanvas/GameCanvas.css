@@ -12,8 +12,6 @@
   height: 100%;
   padding: 20px;
   box-sizing: border-box;
-
-  /* CONTROL DE CAPA: Se mantiene abajo en la escala Z */
   position: relative;
   z-index: 1 !important;
 }
@@ -40,7 +38,7 @@
 }
 
 .hud-label { color: #00f2fe; letter-spacing: 1px; }
-.hud-limite-aviso { color: #ffbd2e; }
+.hud-limite-aviso { color: #ff5555; font-weight: bold; }
 
 .hud-number { 
   font-size: 28px; 
@@ -75,31 +73,30 @@
 }
 
 /* ==========================================================================
-   4. LA CUADRÍCULA DEL MAPA (CUADRADO FIJO)
+   4. LA CUADRÍCULA DEL MAPA (CON IMAGEN DE FONDO COMPLETA)
    ========================================================================== */
 .map-grid-viewport {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr); 
-  grid-template-rows: repeat(5, 1fr);    
-  background-color: #06010f;
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) !important; 
+  grid-template-rows: repeat(5, 1fr) !important;    
+  background-color: #06010f !important;
   
-  /* FONDO CUADRICULADO NEÓN */
-  background-image: 
-    linear-gradient(rgba(219, 0, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(219, 0, 255, 0.1) 1px, transparent 1px);
-  background-size: 20% 20%; 
+  /* Ajuste para que la imagen cubra completamente el contenedor */
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
   
   border: 2px solid #bd00ff;
   border-radius: 12px;
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-  box-shadow: 0 0 15px rgba(189, 0, 255, 0.2);
+  box-shadow: 0 0 15px rgba(189, 0, 255, 0.4);
 
-  /* Dimensiones estables */
-  width: 280px;  
-  height: 280px; 
-  aspect-ratio: 1 / 1;
+  /* Dimensiones fijas */
+  width: 280px !important;  
+  height: 280px !important; 
+  aspect-ratio: 1 / 1 !important;
   flex-shrink: 0; 
   
   align-items: center;
@@ -112,11 +109,10 @@
    ========================================================================== */
 .gema-quantum-item,
 .robot-collector-entity {
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
+  display: flex !important; 
+  align-items: center !important; 
+  justify-content: center !important;
   font-size: 2rem; 
-  position: relative; 
   width: 100%;
   height: 100%;
 }
@@ -124,14 +120,11 @@
 .gema-quantum-item {
   filter: drop-shadow(0 0 8px #00f2fe);
   animation: floatGem 2s infinite ease-in-out;
+  z-index: 3;
 }
 
 .alien-character-wrapper {
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
-  position: relative; 
-  z-index: 2; /* Interno al mapa únicamente */
+  z-index: 4;
   transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
@@ -150,6 +143,7 @@
   border: 2px solid rgba(0, 242, 254, 0.3); 
   border-radius: 50%;
   animation: radar 1.4s infinite linear;
+  z-index: 2;
 }
 
 /* ==========================================================================
@@ -201,4 +195,50 @@
 @keyframes radar { 
   0% { transform: scale(0.8); opacity: 1; } 
   100% { transform: scale(1.4); opacity: 0; } 
+}
+
+/* Estado crítico del contenedor del HUD */
+.hud-critico-overload {
+  border-color: #ff0055 !important;
+  background: rgba(255, 0, 85, 0.15) !important;
+  animation: pulse-danger 0.5s infinite alternate;
+}
+
+/* Efecto de explosión sobre el muñeco */
+.alien-character-wrapper.explosion-active {
+  animation: shake-collapse 0.3s infinite;
+}
+
+.alien-damaged {
+  filter: grayscale(0.3) sepia(1) hue-rotate(-50deg) brightness(1.4);
+}
+
+.mini-explosion-particle-container {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  animation: pop-up-boom 0.6s ease-out forwards;
+}
+
+/* Animaciones */
+@keyframes pulse-danger {
+  from { box-shadow: 0 0 5px #ff0055; }
+  to { box-shadow: 0 0 20px #ff0055; }
+}
+
+@keyframes shake-collapse {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  20% { transform: translate(-1px, -2px) rotate(-1deg); }
+  40% { transform: translate(-3px, 0px) rotate(1deg); }
+  60% { transform: translate(0px, 2px) rotate(0deg); }
+  80% { transform: translate(1px, -1px) rotate(1deg); }
+  100% { transform: translate(-1px, 2px) rotate(-1deg); }
+}
+
+@keyframes pop-up-boom {
+  0% { transform: scale(0.5) translateX(-50%); opacity: 0; }
+  50% { transform: scale(1.5) translateX(-50%); opacity: 1; }
+  100% { transform: scale(1.2) translateX(-50%); opacity: 0; }
 }

@@ -1,28 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useLevel5Store } from '../../../pages/Nivel5/state/level5Store'; 
 import './InstructionPanel.css';
 
-export const InstructionPanel: React.FC = () => {
+interface InstructionPanelProps {
+  isRevealDisabled: boolean;
+}
+
+export const InstructionPanel: React.FC<InstructionPanelProps> = ({ isRevealDisabled }) => {
   const [showHintModal, setShowHintModal] = useState<boolean>(false);
   const { setRevealSolution } = useLevel5Store();
-  
-  // Tiempo inicial en segundos: 3 minutos = 180 segundos
-  const [timeLeft, setTimeLeft] = useState<number>(180);
-  const [isRevealDisabled, setIsRevealDisabled] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (timeLeft <= 0) {
-      setIsRevealDisabled(false);
-      return;
-    }
-
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [timeLeft]);
 
   return (
     <div className="instruction-inner-layout">
@@ -30,11 +17,11 @@ export const InstructionPanel: React.FC = () => {
       {/* SECCIÓN DE TEORÍA */}
       <div className="theory-block-section">
         <h2 className="section-panel-title">
-          <span className="title-icon cyan-glow">📘</span> Teoría
+          <span className="title-icon cyan-glow">📘</span> Teoría de Flujo Avanzado
         </h2>
-        <p className="panel-prose-text">Las variables permiten almacenar información de forma volátil.</p>
-        <p className="panel-prose-text">Los operadores matemáticos y de módulo permiten realizar cálculos condicionales utilizando valores.</p>
-        <p className="panel-prose-text">Las estructuras de control iterativas indexadas ejecutan bloques de código un número determinado de veces.</p>
+        <p className="panel-prose-text">Las variables permiten almacenar información de forma volátil dentro del entorno.</p>
+        <p className="panel-prose-text">Los operadores matemáticos y de módulo permiten realizar cálculos condicionales utilizando valores del sistema.</p>
+        <p className="panel-prose-text">Las estructuras de control iterativas ejecutan bloques de código un número determinado de veces, alterables mediante instrucciones de escape como <code>break</code>.</p>
         
         <div className="code-example-static-box">
           <pre>
@@ -52,13 +39,16 @@ if (recursos >= 50) {
       {/* SECCIÓN DE MISIÓN */}
       <div className="mission-block-section">
         <h2 className="section-panel-title">
-          <span className="title-icon purple-glow">🎯</span> Misión
+          <span className="title-icon purple-glow">🎯</span> Misión de la App
         </h2>
         <p className="panel-prose-text">
-          El alien necesita configurar el recolector automatizado indexado en <strong>Java</strong>. Debes evaluar las celdas del 1 al 10 de la matriz cuántica. Extrae <strong>12 unidades</strong> de antimateria exclusivamente de las celdas impares. Si la energía acumulada supera los 40 puntos, detén el flujo inmediatamente invocando la instrucción de escape <code>break</code>.
+          El sistema central necesita configurar el recolector automatizado indexado en <strong>Java</strong>. Debes evaluar los nodos del 1 al 10 de la matriz cuántica usando un bucle <code>for</code>. 
+        </p>
+        <p className="panel-prose-text">
+          Si el nodo evaluado es <strong>par</strong>, calcula su potencia al cuadrado y acumúlala en la variable <code>suma</code>. Si la energía acumulada llega a superar el umbral crítico de <strong>300 unidades</strong>, aborta el ciclo inmediatamente invocando la instrucción <code>break</code>. Al final, imprime el resultado de la suma.
         </p>
         
-        {/* BOTONES DE ACCIÓN COMPACTOS ESTILO FOTO */}
+        {/* BOTONES DE ACCIÓN COMPACTOS */}
         <div className="mission-actions-row">
           <button className="btn-cyber-action hint-style" onClick={() => setShowHintModal(true)}>
             <span className="btn-icon">💡</span> Pista
@@ -94,13 +84,13 @@ if (recursos >= 50) {
             <div className="modal-body-content">
               <h3>💡 Sugerencia de Optimización Cuántica</h3>
               <p>
-                Para verificar si una celda es impar en Java, puedes aplicar el operador de residuo o módulo <code>%</code> con el número 2. Si el residuo es diferente de cero (<code>celda % 2 != 0</code>), significa que has localizado un cuadrante impar.
+                Para comprobar si un nodo es par en Java, utiliza el operador de residuo <code>%</code> con el número 2. Si el residuo es exactamente cero (<code>i % 2 == 0</code>), has aislado exitosamente un componente par.
               </p>
               <p>
-                No olvides que la acumulación de la energía debe sumarse consecutivamente de 12 en 12 antes de evaluar la ruptura del ciclo crítico.
+                Eleva el valor multiplicándolo por sí mismo o calculando su cuadrado, añádelo al acumulador y evalúa el disparo de la condición de quiebre de seguridad.
               </p>
               <div className="alert-box-modal">
-                <strong>Clave de sintaxis:</strong> Asegúrate de inicializar <code>int energiaTotal = 0;</code> de forma externa al ciclo <code>for</code>.
+                <strong>Clave de sintaxis:</strong> Asegúrate de inicializar tu acumulador <code>int suma = 0;</code> de forma externa al bucle.
               </div>
             </div>
           </div>

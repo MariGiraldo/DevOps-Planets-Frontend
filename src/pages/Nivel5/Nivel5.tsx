@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import { InstructionPanel } from '../../components/Nivel-5/InstructionPanel/InstructionPanel';
 import { ResultsPanel } from '../../components/Nivel-5/ResultsPanel/ResultsPanel'; 
 import { CodeEditor } from '../../components/Nivel-5/CodeEditor/CodeEditor';
@@ -7,147 +8,127 @@ import { useLevel5Store } from './state/level5Store';
 import './Nivel5.css';
 
 export const Nivel5: React.FC = () => {
-  // Extraemos las acciones y estados globales del store
+  const navigate = useNavigate(); 
   const { setPos, sumarPuntos, addConsoleMessage, resetLevel, setIsLevelCompleted } = useLevel5Store();
 
-  // CONTROL DEL TIEMPO: Manejado localmente en la raíz del nivel (3 minutos = 180 segundos)
   const [timeLeft, setTimeLeft] = useState<number>(180);
 
   useEffect(() => {
     resetLevel();
-    
-    // Forzar al navegador a ir al tope superior sin animaciones intermedias
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'instant' 
-    });
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [resetLevel]);
 
-  // Efecto que controla el retroceso del reloj segundo a segundo
   useEffect(() => {
-    if (timeLeft <= 0) return;
-
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
+    const interval = window.setInterval(() => {
+      setTimeLeft((current) => {
+        if (current <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return current - 1;
+      });
     }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-    return () => clearInterval(timer);
+  const formattedTimer = useMemo(() => {
+    if (timeLeft <= 0) return "DESBLOQUEADA";
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   }, [timeLeft]);
 
-  // Formateador auxiliar para transformar los segundos a formato MM:SS
-  const formatTime = (seconds: number): string => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-  };
+  const isRevealDisabled = timeLeft > 0;
 
+  // CONTROLADOR DE COMPILACIÓN CON SIMULACIÓN DE ESCAPE O SOBRECARGA
   const handleExecuteCode = (studentCode: string) => {
-    // Restablecer simulación previa antes de correr la nueva
     resetLevel();
 
-    // VALIDADOR ESTRICTO DE TOKENS JAVA
-    const tieneForJava = studentCode.includes('for') && studentCode.includes('int celda');
-    const tieneCondicionImpar = studentCode.includes('celda % 2 != 0') || studentCode.includes('celda % 2 == 1');
-    const tieneAcumulador = studentCode.includes('energiaTotal = energiaTotal + 12') || studentCode.includes('energiaTotal += 12');
-    const tieneBreak = studentCode.includes('break;');
+    const tieneForJava = studentCode.includes('for') && (studentCode.includes('int i') || studentCode.includes('i <='));
+    const tieneCondicionPar = studentCode.includes('% 2 == 0');
+    const tieneCuadrado = studentCode.includes('* i') || studentCode.includes('cuadrado');
+    const tieneAcumulador = studentCode.includes('suma +=') || studentCode.includes('suma = suma +');
     const tienePrintJava = studentCode.includes('System.out.println');
+    const tieneBreak = studentCode.includes('break;');
 
-    if (tieneForJava && tieneCondicionImpar && tieneAcumulador && tieneBreak && tienePrintJava) {
-      
-      addConsoleMessage("> [JVM] Compilando RecolectorQuantum.java con éxito...");
-      addConsoleMessage("> Iniciando hilos de recolección física en Marte...");
+    // Estructura básica mínima de bucle construida
+    if (tieneForJava && tieneCondicionPar && tieneCuadrado && tieneAcumulador && tienePrintJava) {
+      addConsoleMessage("> [JVM] Compilando ControlFlujo.java con éxito...");
+      addConsoleMessage("> Iniciando bucle iterativo sobre la matriz cuántica de la app...");
 
-      // Celda 1 (Impar) -> El alien se mueve y recolecta primera gema
-      setTimeout(() => {
-        setPos(1, 4);
-        sumarPuntos(12, 1);
-        addConsoleMessage("> [Celda 1]: Extracción de antimateria exitosa. +12 Unidades.");
-      }, 1000);
+      // Pasos comunes iniciales (Nodos 2, 4, 6, 8)
+      setTimeout(() => { setPos(1, 1); sumarPuntos(4, 2); addConsoleMessage("> [i = 2] Nodo Par. Cuadrado: 4. Suma: 4u."); }, 1000);
+      setTimeout(() => { setPos(3, 1); sumarPuntos(16, 4); addConsoleMessage("> [i = 4] Nodo Par. Cuadrado: 16. Suma: 20u."); }, 2000);
+      setTimeout(() => { setPos(1, 3); sumarPuntos(36, 6); addConsoleMessage("> [i = 6] Nodo Par. Cuadrado: 36. Suma: 56u."); }, 3000);
+      setTimeout(() => { setPos(3, 3); sumarPuntos(64, 8); addConsoleMessage("> [i = 8] Nodo Par. Cuadrado: 64. Suma: 120u."); }, 4000);
 
-      // Celda 3 (Impar) -> Avanza en diagonal y absorbe segunda gema
-      setTimeout(() => {
-        setPos(2, 3);
-        sumarPuntos(12, 3);
-        addConsoleMessage("> [Celda 3]: Extracción de antimateria exitosa. +12 Unidades.");
-      }, 2000);
+      if (tieneBreak) {
+        // CAMINO A: El estudiante usó correctamente la instrucción break de escape
+        setTimeout(() => {
+          sumarPuntos(100, 10); // Agrega nodo 10 (Suma = 220)
+          addConsoleMessage("> [i = 10] Nodo Par. Cuadrado: 100. Suma: 220u.");
+          addConsoleMessage("> [System.out.println]: Flujo de la app finalizado. Output -> 220");
+          addConsoleMessage("> [ÉXITO]: Sentencia 'break' resguardada con éxito. Nivel completado.");
+          if (setIsLevelCompleted) setIsLevelCompleted(true);
+        }, 5000);
 
-      // Celda 5 (Impar) -> Continúa el camino y suma puntos
-      setTimeout(() => {
-        setPos(3, 2);
-        sumarPuntos(12, 5);
-        addConsoleMessage("> [Celda 5]: Extracción de antimateria exitosa. +12 Unidades.");
-      }, 3000);
+      } else {
+        // CAMINO B: ¡FALTA EL BREAK! El recolector se sale de control y recolecta las nuevas celdas par
+        setTimeout(() => {
+          sumarPuntos(100, 10); 
+          addConsoleMessage("> [i = 10] Nodo Par. Cuadrado: 100. Suma: 220u.");
+        }, 5000);
 
-      // Celda 7 (Impar) -> Suma 48 unidades totales. Supera los 40 -> ¡Dispara el BREAK de emergencia!
-      setTimeout(() => {
-        setPos(3, 1);
-        sumarPuntos(12, 7);
-        addConsoleMessage("> [Celda 7]: Extracción crítica de antimateria. +12 Unidades.");
-        addConsoleMessage("> [ALERTA CORRIENTE]: Nivel de contenedor de energía superó las 40 unidades.");
-        addConsoleMessage("> [BREAK]: Rompiendo ciclo 'for' prematuramente para mitigar explosión.");
-      }, 4000);
+        setTimeout(() => {
+          setPos(2, 2); // Se mueve al centro de sobrecarga
+          sumarPuntos(144, 12); // Agrega nodo par 12 (12*12 = 144) -> Total = 364u (Supera los 300)
+          addConsoleMessage("> [⚠️ CRÍTICO] [i = 12] Nodo Par detectado. Cuadrado: 144. Suma: 364u.");
+        }, 6000);
 
-      // Fin del hilo e impresión por consola -> Desbloquea el botón del panel inferior izquierdo
-      setTimeout(() => {
-        addConsoleMessage("> [System.out.println]: Impresión de diagnóstico finalizado -> 48");
-        addConsoleMessage("> [ÉXITO]: Estabilizador cuántico en línea. Nivel 5 completado.");
-        
-        if (setIsLevelCompleted) {
-          setIsLevelCompleted(true);
-        }
-      }, 5000);
+        setTimeout(() => {
+          addConsoleMessage("> 💥 [SOBRECARGA DETECTADA]: La suma superó las 300 unidades de antimateria permitidas.");
+          addConsoleMessage("> ❌ ERROR OPERACIONAL: Contenedores destruídos por falta de sentencia de escape 'break;'.");
+        }, 7000);
+      }
 
     } else {
-      addConsoleMessage("> ❌ JAVA COMPILATION ERROR: Estructura del ciclo incompleta, falta el operador de módulo '%' o la sintaxis de escape 'break;'.");
+      addConsoleMessage("> ❌ JAVA COMPILATION ERROR: Estructura lógica inválida. Revisa los componentes mínimos del bucle for e impresión.");
     }
   };
 
   return (
     <div className="nivel5-container"> 
-      
-      {/* Luces de neón ambientales decorativas */}
       <div className="neon-glow-cyan"></div>
       <div className="neon-glow-purple"></div>
 
-      {/* Título Superior Interactivo Cyberpunk */}
       <div className="cyber-level-header">
-        <div className="header-glitch-wrapper">
-          <span className="header-tag">SYSTEM: CORE_PHASE_05</span>
-          <h1 className="header-title" data-text="NIVEL 5">NIVEL 5</h1>
-        </div>
-        
-        {/* BARRA DE ESTADO COMPLETA: Empuja el tiempo dinámicamente hacia el extremo derecho */}
-        <div className="header-status-bar">
-          <div className="status-left-info">
-            <div className="status-indicator-pulse"></div>
-            <span className="status-text">COMPILADOR DE ANTIMATERIA ACTIVO</span>
+        <div className="header-left-block">
+          <button className="back-button-cyber" onClick={() => navigate('/mundo')}>
+            ← Volver al mapa
+          </button>
+          <div className="header-glitch-wrapper">
+            <h1 className="header-title" data-text="NIVEL 5">NIVEL 5</h1>
           </div>
+        </div>
 
-          {/* EL TEMPORIZADOR FLOTANTE EXACTO EN LA ESQUINA SUPERIOR DERECHA */}
-          {timeLeft > 0 && (
-            <div className="header-top-timer">
-              <span className="timer-label">RESPUESTA DISPONIBLE EN:</span>
-              <span className="timer-countdown">{formatTime(timeLeft)}</span>
-            </div>
-          )}
+        <div className="header-top-timer">
+          <span className="timer-label">RESPUESTA DISPONIBLE EN:</span>
+          <span className={`timer-countdown ${timeLeft <= 0 ? 'timer-unlocked-glow' : ''}`}>
+            {formattedTimer}
+          </span>
         </div>
       </div>
 
-      {/* Contenedor Grid Principal */}
       <div className="game-level-workspace nivel5-layout">
-        
-        {/* LADO IZQUIERDO: Panel superior (Teoría y Misión) + Panel inferior (Resultado y Salida) */}
         <div className="layout-left">
           <div className="quadrant-wrapper theory-mission-card">
-            <InstructionPanel />
+            <InstructionPanel isRevealDisabled={isRevealDisabled} />
           </div>
           <div className="quadrant-wrapper results-card">
             <ResultsPanel />
           </div>
         </div>
 
-        {/* LADO DERECHO: Editor de Código + Sub-Workspace (Consola + Simulación) */}
         <div className="layout-right">
           <div className="quadrant-wrapper editor-card">
             <CodeEditor onExecute={handleExecuteCode} />
@@ -156,7 +137,6 @@ export const Nivel5: React.FC = () => {
             <GameCanvas /> 
           </div>
         </div>
-
       </div>
     </div>
   );
