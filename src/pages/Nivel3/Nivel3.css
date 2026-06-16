@@ -295,6 +295,9 @@
 
 .diamond{
   position:absolute;
+  filter:
+    drop-shadow(0 0 10px #00ffff)
+    drop-shadow(0 0 20px #00ffff);
   width:100px;
 
   left:45%;
@@ -303,6 +306,9 @@
 
 .energy-resource{
   position:absolute;
+  filter:
+    drop-shadow(0 0 10px #e3f828fb)
+    drop-shadow(0 0 20px #e3f828fb);
   width:80px;
 
   left:78%;
@@ -326,6 +332,9 @@
 .alien-player{
   
   position:absolute;
+  filter:
+    drop-shadow(0 0 10px #c654fa)
+    drop-shadow(0 0 20px #c654fa);
 
   width:130px;
 
@@ -460,7 +469,10 @@
 /* REACTOR */
 
 .reactor-img{
-  width:210px;
+  width:180px;
+  filter:
+    drop-shadow(0 0 10px #7aadfa)
+    drop-shadow(0 0 20px #7aadfa);
 
   position:absolute;
 
@@ -572,4 +584,31 @@
     opacity:0;
   }
 
+}
+
+.path{
+  position:absolute;
+  border-top:4px dotted #4de1ff;
+  border-radius:50%;
+  opacity:.8;
+}
+
+.path-1{
+  width:220px;
+  height:80px;
+
+  left:120px;
+  top:220px;
+
+  transform:rotate(-8deg);
+}
+
+.path-2{
+  width:180px;
+  height:60px;
+
+  left:350px;
+  top:220px;
+
+  transform:rotate(5deg);
 }
