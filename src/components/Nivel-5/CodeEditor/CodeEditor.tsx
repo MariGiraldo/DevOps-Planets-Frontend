@@ -9,9 +9,9 @@ interface CodeEditorProps {
 export const CodeEditor: React.FC<CodeEditorProps> = ({ onExecute }) => {
   const { resetLevel } = useLevel5Store();
 
-  // RETO EN JAVA: Inicialización tipada obligatoria
+  // RETO EN JAVA: Inicialización de variables sincronizada con el validador principal
   const [code, setCode] = useState<string>(
-`int energiaTotal = 0;
+`int suma = 0;
 
 // Escribe tu bucle for y las condiciones en Java aquí abajo:
 `
@@ -26,13 +26,13 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ onExecute }) => {
     }
   };
 
-  // Acción para restablecer el editor al estado base del nivel
+  // Acción para restablecer el editor al estado base unificado del nivel 5
   const handleClear = () => {
     resetLevel();
-    setCode(`int energiaTotal = 0;\n\n// Escribe tu bucle for y las condiciones en Java aquí abajo:\n`);
+    setCode(`int suma = 0;\n\n// Escribe tu bucle for y las condiciones en Java aquí abajo:\n`);
   };
 
-  // MOTOR REGEX DE UNA SOLA PASADA ADAPTADO A SINTAXIS JAVA
+  // MOTOR REGEX DE UNA SOLA PASADA ACTUALIZADO PARA LAS VARIABLES DEL ALGORITMO
   const highlightJava = (text: string) => {
     if (!text) return ' ';
     
@@ -41,7 +41,8 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ onExecute }) => {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
-    const regex = /(\/\/.*?)(?=\n|$)|(?:\b(for|if|break|int)\b)|(?:\b(System\.out\.println)\b)|(?:\b(energiaTotal|celda)\b)|(?:\b(\d+)\b)|(\*|\+|\b>|==|=|%|!=|;|\{|\})/g;
+    // Se agregaron 'suma', 'cuadrado', 'i' y 'n' para un resaltado de sintaxis preciso
+    const regex = /(\/\/.*?)(?=\n|$)|(?:\b(for|if|break|int)\b)|(?:\b(System\.out\.println)\b)|(?:\b(suma|cuadrado|i|n)\b)|(?:\b(\d+)\b)|(\*|\+|\b>|==|=|%|!=|;|\{|\})/g;
 
     return html.replace(regex, (match, comment, keyword, func, variable, number, operator) => {
       if (comment)  return `<span class="token-comment">${match}</span>`;
@@ -56,12 +57,12 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({ onExecute }) => {
 
   return (
     <div className="code-editor-container">
-      {/* CABECERA CORREGIDA: Ahora usa la misma clase limpia que el lado izquierdo */}
+      {/* CABECERA CORREGIDA */}
       <div className="editor-header">
         <h2 className="editor-panel-title">
           <span className="title-icon cyan-glow">💻</span> Editor
         </h2>
-        <span className="file-name">RecolectorQuantum.java</span>
+        <span className="file-name">ControlFlujo.java</span>
       </div>
 
       <div className="editor-workspace-wrapper">

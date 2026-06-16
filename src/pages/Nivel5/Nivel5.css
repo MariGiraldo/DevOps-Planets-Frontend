@@ -19,7 +19,7 @@
   background-attachment: fixed !important; 
 }
 
-/* Luces de Neón Ambientales Decorativas (Z-Index Ajustado) */
+/* Luces de Neón Ambientales Decorativas */
 .neon-glow-cyan {
   position: absolute;
   width: 500px;
@@ -43,14 +43,14 @@
 }
 
 /* ==========================================================================
-   2. INTERFAZ SUPERIOR (CABECERA Y CRONÓMETRO FLOTANTE)
+   2. INTERFAZ SUPERIOR (CABECERA Y CRONÓMETRO ESTILO NIVEL 2)
    ========================================================================== */
 .cyber-level-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center; /* Centrado simétrico de ambos bloques extremos */
   width: 100%;
-  padding: 10px 20px;
+  padding: 12px 20px;
   margin-bottom: 24px;
   background: linear-gradient(90deg, rgba(22, 11, 41, 0.6) 0%, transparent 100%);
   border-left: 4px solid #db00ff;
@@ -60,18 +60,37 @@
   z-index: 5;
 }
 
+/* Agrupa el botón de volver y los títulos a la izquierda */
+.header-left-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+/* Botón Volver con estética cibernética limpia */
+.back-button-cyber {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.25s ease, transform 0.2s ease;
+}
+
+.back-button-cyber:hover {
+  color: #00f2fe;
+  transform: translateX(-2px);
+  text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
+}
+
 .header-glitch-wrapper { 
   display: flex; 
   flex-direction: column; 
   gap: 2px; 
-}
-
-.header-tag {
-  font-family: 'Fira Code', monospace;
-  font-size: 11px;
-  color: #00f2fe;
-  letter-spacing: 2px;
-  text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
 }
 
 .header-title {
@@ -86,65 +105,33 @@
   animation: cyberNeonPulse 3s infinite ease-in-out;
 }
 
-/* Barra de Estado Distribuida Simétricamente (Fijada a los Extremos) */
-.header-status-bar {
-  display: flex;
-  justify-content: space-between; 
-  align-items: center;
-  background: rgba(6, 1, 15, 0.6);
-  padding: 6px 14px;
-  border-radius: 6px;
-  border: 1px solid rgba(0, 242, 254, 0.15);
-  font-family: 'Fira Code', monospace;
-  min-width: 450px; /* Previene deformaciones en resoluciones compactas */
-}
-
-.status-left-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.status-indicator-pulse {
-  width: 8px;
-  height: 8px;
-  background-color: #50fa7b;
-  border-radius: 50%;
-  box-shadow: 0 0 10px #50fa7b;
-  animation: statusPulse 1.6s infinite ease-in-out;
-}
-
-.status-text { 
-  font-size: 10px; 
-  color: #9d8db5; 
-  letter-spacing: 1px; 
-}
-
-/* Reloj Premium de la Esquina Superior Derecha */
+/* Reloj Cuenta Regresiva Adaptado Directamente del Nivel 2 */
 .header-top-timer {
+  background: rgba(15, 23, 42, .85);
+  border: 1px solid rgba(236, 72, 153, .35);
+  padding: .8rem 1.2rem;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(236, 72, 153, .2);
   display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(12, 4, 26, 0.6);
-  padding: 4px 12px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 189, 46, 0.2);
+  flex-direction: column;
+  gap: 2px;
 }
 
 .timer-label {
-  font-family: 'Fira Code', monospace;
-  font-size: 10px;
-  font-weight: 600;
-  color: #9d8db5;
-  letter-spacing: 0.5px;
+  display: block;
+  font-size: .8rem;
+  color: #407dd3;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: normal;
+  letter-spacing: normal;
 }
 
 .timer-countdown {
-  font-family: 'Fira Code', monospace;
-  font-size: 13px;
+  color: #6ec0e6;
+  font-size: 1.4rem;
+  font-family: Consolas, monospace;
   font-weight: bold;
-  color: #ffbd2e; 
-  text-shadow: 0 0 8px rgba(255, 189, 46, 0.5);
 }
 
 /* ==========================================================================
@@ -351,7 +338,7 @@
 
 .telemetry-timer-card strong {
   font-size: 18px;
-  color: #ffbd2e; 
+  color: #b75deb; 
   text-shadow: 0 0 8px rgba(255, 189, 46, 0.3);
 }
 
@@ -491,5 +478,4 @@
   .game-level-workspace.nivel5-layout { grid-template-columns: 1fr; }
   .simulation-workspace-split { grid-template-columns: 1fr; }
   .map-grid-viewport { max-width: 340px; margin: 0 auto; }
-  .header-status-bar { min-width: 100%; flex-direction: column; gap: 8px; align-items: flex-start; }
 }
