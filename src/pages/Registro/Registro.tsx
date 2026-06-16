@@ -1,81 +1,178 @@
-import { useState } from 'react'
-import './Registro.css'
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { register } from '../../services/authService';
 
-function Registro() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  })
+import alien from '../../assets/images/omni.png';
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Registro:', formData)
-  }
+
+import './Registro.css';
+
+import fondo from '../../assets/backgrounds/Fondo.jpeg';
+
+
+export default function Registro() {
+
+  const navigate = useNavigate();
+
+  const [nombreUsuario, setNombreUsuario] =
+    useState('');
+
+  const [password, setPassword] =
+    useState('');
+
+  const [confirmarPassword,
+    setConfirmarPassword] =
+    useState('');
+
+  const [error, setError] =
+    useState('');
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const handleRegister = async (
+    e: React.FormEvent
+  ) => {
+
+    e.preventDefault();
+
+    setError('');
+
+    if (
+      password !== confirmarPassword
+    ) {
+
+      setError(
+        'Las contraseñas no coinciden'
+      );
+
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+
+      await register(
+        nombreUsuario,
+        password
+      );
+
+      navigate('/login');
+
+    } catch {
+
+      setError(
+        'No fue posible registrar el usuario'
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
 
   return (
-    <div className="registro-page">
-      <div className="registro-container">
-        <h1>Crear Cuenta</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Nombre</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Contraseña</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirmar Contraseña</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <button type="submit" className="btn-submit">Registrarse</button>
-        </form>
-      </div>
-    </div>
-  )
-}
 
-export default Registro
+    <div
+      className="registro-container"
+      style={{
+        backgroundImage: `url(${fondo})`
+      }}
+    >
+
+      <div className="registro-card">
+
+        <h1>
+          CREA TU CUENTA
+          <br />
+          DE EXPLORADOR
+        </h1>
+
+        <form
+          onSubmit={handleRegister}
+        >
+
+          <input
+            type="text"
+            placeholder="Nombre de usuario"
+            value={nombreUsuario}
+            onChange={(e) =>
+              setNombreUsuario(
+                e.target.value
+              )
+            }
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) =>
+              setPassword(
+                e.target.value
+              )
+            }
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Confirmar contraseña"
+            value={confirmarPassword}
+            onChange={(e) =>
+              setConfirmarPassword(
+                e.target.value
+              )
+            }
+            required
+          />
+
+          {error && (
+
+            <p className="error-message">
+              {error}
+            </p>
+
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+          >
+
+            {loading
+              ? 'Registrando...'
+              : 'REGISTRARME'}
+
+          </button>
+
+        </form>
+
+        <p className="login-link">
+
+          ¿Ya tienes cuenta?
+
+          <Link to="/login">
+            {' '}Iniciar sesión
+          </Link>
+
+        </p>
+
+      
+              </div>
+
+      <img
+        src={alien}
+        alt="Marciano"
+        className="alien-side"
+      />
+
+    </div>
+
+  );
+}
+   
