@@ -1,16 +1,420 @@
-.nivel {
+.nivel4-page {
   min-height: 100vh;
   padding: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+
+  background-image:
+    linear-gradient(
+      rgba(5, 8, 25, 0.20),
+      rgba(5, 8, 25, 0.20)
+    ),
+    url('../../assets/backgrounds/IMAGENFONDO.png');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  color: #e2e8f0;
+  font-family: system-ui, sans-serif;
 }
 
-.nivel h1 {
-  text-align: center;
+/* ENCABEZADO */
+
+.nivel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   margin-bottom: 2rem;
+  padding-bottom: 1rem;
+
+  border-bottom: 1px solid rgba(0,255,255,.15);
 }
 
-.nivel-content {
-  max-width: 1200px;
-  margin: 0 auto;
+.back-button {
+  background: transparent;
+  border: none;
+  color: #7dd3fc;
+  cursor: pointer;
+
+  font-size: .95rem;
+  margin-bottom: .5rem;
+
+  transition: .3s;
+}
+
+.back-button:hover {
+  color: white;
+  text-shadow: 0 0 10px #00e5ff;
+}
+
+.nivel-header h1 {
+  font-size: 2rem;
+
+  color: white;
+
+  text-shadow:
+    0 0 8px #00e5ff,
+    0 0 20px #ff00ff;
+}
+
+.nivel-header p {
+  color: #cbd5e1;
+}
+
+/* TIMER */
+
+.timer-card {
+  background: rgba(20, 0, 40, .7);
+
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,0,255,.35);
+
+  border-radius: 15px;
+
+  padding: .8rem 1.2rem;
+
+  box-shadow:
+    0 0 15px rgba(255,0,255,.25);
+}
+
+.timer-card span {
+  display: block;
+  font-size: .75rem;
+  color: #cbd5e1;
+}
+
+.timer-card strong {
+  font-size: 1.4rem;
+  color: #ff7bff;
+  font-family: monospace;
+}
+
+/* GRID */
+
+.nivel-grid,
+.resultado-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(450px,1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* PANELES */
+
+.panel {
+  background: rgba(7,10,30,.75);
+
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(0,255,255,.15);
+
+  border-radius: 20px;
+
+  padding: 1.75rem;
+
+  box-shadow:
+    0 0 10px rgba(0,255,255,.10),
+    0 0 25px rgba(255,0,255,.12),
+    inset 0 0 15px rgba(255,255,255,.03);
+}
+
+.panel h2 {
+  color: #00e5ff;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+  text-shadow:
+    0 0 8px #00e5ff,
+    0 0 15px #00e5ff;
+
+  margin-bottom: 1.2rem;
+}
+
+/* TEORÍA */
+
+.theory-panel {
+  border-left: 3px solid #00e5ff;
+}
+
+.theory-panel p {
+  color: #e2e8f0;
+  line-height: 1.7;
+}
+
+.theory-panel pre {
+  background: rgba(0,0,0,.55);
+
+  border: 1px solid rgba(0,255,255,.20);
+
+  border-radius: 12px;
+
+  padding: 1rem;
+
+  overflow-x: auto;
+}
+
+.theory-panel code {
+  color: #7df9ff;
+}
+
+/* EJERCICIO */
+
+.challenge-box {
+  background: rgba(0,255,255,.05);
+
+  border-left: 4px solid #00e5ff;
+
+  border-radius: 0 12px 12px 0;
+
+  padding: 1rem;
+
+  margin: 1.5rem 0;
+
+  box-shadow:
+    0 0 15px rgba(0,229,255,.15);
+}
+
+.challenge-box h3 {
+  color: #00e5ff;
+}
+
+.actions-row {
+  display: flex;
+  gap: 1rem;
+}
+
+/* EDITOR */
+
+.editor-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.code-editor {
+  flex-grow: 1;
+
+  min-height: 250px;
+
+  background: rgba(0,0,15,.9);
+
+  border: 1px solid #00e5ff;
+
+  border-radius: 12px;
+
+  padding: 1rem;
+
+  color: #7df9ff;
+
+  font-family: 'Fira Code', monospace;
+
+  font-size: .95rem;
+
+  resize: none;
+
+  outline: none;
+
+  box-shadow:
+    inset 0 0 20px rgba(0,255,255,.1),
+    0 0 15px rgba(0,255,255,.2);
+}
+
+.code-editor:focus {
+  border-color: #00e5ff;
+
+  box-shadow:
+    0 0 20px rgba(0,255,255,.4);
+}
+
+.editor-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* RESULTADO */
+
+.result-box {
+  min-height: 90px;
+
+  background: #050816;
+
+  border: 1px solid rgba(0,255,255,.15);
+
+  border-radius: 12px;
+
+  padding: 1rem;
+
+  margin-bottom: 1rem;
+
+  font-family: monospace;
+
+  box-shadow:
+    inset 0 0 15px rgba(0,255,255,.05);
+}
+
+.result-box.success {
+  color: #00ff88;
+  border-color: rgba(0,255,136,.3);
+}
+
+.result-box.error {
+  color: #ff7070;
+  border-color: rgba(255,112,112,.3);
+}
+
+/* ANIMACIÓN */
+
+.animation-placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 350px;
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
+
+  border: 1px solid rgba(0,255,255,.2);
+}
+
+.animation-placeholder::before {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      rgba(0,0,0,.25),
+      rgba(0,0,0,.45)
+    );
+
+  z-index: 1;
+}
+
+.scene,
+.animation-placeholder p {
+  position: relative;
+  z-index: 2;
+}
+
+.scene {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+/* ALIEN */
+
+.alien-image {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+
+  width: 120px;
+  height: auto;
+
+  animation: flotar 3s ease-in-out infinite;
+}
+
+.alien-walk {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+
+  width: 120px;
+  height: auto;
+
+  animation: caminar 3s forwards;
+}
+
+/* CRISTAL */
+
+.cristal {
+  position: absolute;
+  width: 55px;
+  animation: brillo 1.5s infinite alternate;
+}
+
+.c1 {
+  right: 340px;
+  bottom: 40px;
+}
+
+.c2 {
+  right: 270px;
+  bottom: 90px;
+}
+
+.c3 {
+  right: 200px;
+  bottom: 40px;
+}
+
+.c4 {
+  right: 130px;
+  bottom: 90px;
+}
+
+.c5 {
+  right: 60px;
+  bottom: 40px;
+}
+
+/* EFECTOS */
+
+@keyframes flotar {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes caminar {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(380px);
+  }
+}
+
+@keyframes brillo {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.15);
+  }
+}
+.animation-text {
+  margin-top: 1rem;
+  text-align: center;
+  color: #e2e8f0;
+  font-size: 1rem;
+  font-weight: 500;
+
+  text-shadow:
+    0 0 8px rgba(0,255,255,.4);
 }
