@@ -1,0 +1,313 @@
+/* ==========================================
+   VARIABLES COSMICAS (Para fácil mantenimiento)
+   ========================================== */
+:root {
+  --bg-dark: #0c0721;
+  --cyber-cyan: #00f2fe;
+  --cyber-pink: #db00ff;
+  --cyber-green: #2ecc71;
+  --cyber-green-hover: #27ae60;
+  --text-main: #ffffff;
+  --text-muted: #b3abd2;
+  --text-small: #9287be;
+}
+
+/* CONTAINER BASE CON IMAGEN DE FONDO ADAPTATIVA */
+.teoria-n1-bg {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  
+  /* Ajustes esenciales para imágenes de fondo */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* Capa de tinte oscuro para que el fondo no opaque el texto del panel frontal */
+  background-blend-mode: overlay;
+  background-color: rgba(6, 3, 18, 0.65); 
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+}
+
+/* ENLACE "VOLVER AL MAPA" REPLICADO */
+.back-to-map-link {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: monospace;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+  user-select: none;
+}
+
+.back-to-map-link:hover {
+  color: var(--cyber-cyan);
+  transform: translateX(-3px);
+}
+
+/* AMBIENTACIÓN LUMÍNICA DE FONDO */
+.neon-sphere {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  z-index: 1;
+  opacity: 0.35;
+}
+
+.cian-glow-top {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--cyber-cyan) 0%, transparent 70%);
+  top: -15%;
+  left: -5%;
+}
+
+.purple-glow-bottom {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, var(--cyber-pink) 0%, transparent 70%);
+  bottom: -15%;
+  right: -5%;
+}
+
+/* TARJETA CONTENEDORA GLASSMORPHISM */
+.glass-card-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 950px; /* Expandido para dar espacio al diseño horizontal */
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  padding: 45px;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
+              inset 0 1px 2px rgba(255, 255, 255, 0.15);
+}
+
+/* DECORACIÓN Y TÍTULOS */
+.card-telemetry-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+
+.line-deco {
+  height: 1px;
+  flex-grow: 1;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.25), transparent);
+}
+
+.main-cyber-title {
+  color: var(--text-main);
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  letter-spacing: 0.5px;
+}
+
+.sub-cyber-title {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin: 0 0 35px 0;
+}
+
+/* DISTRIBUCIÓN BILATERAL (ANIME A UN LADO, TEORÍA AL OTRO) */
+.theory-interactive-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 40px;
+  align-items: center;
+}
+
+/* CONTENEDOR DE LA MASCOTA ALIEN */
+.alien-mascot-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.alien-floating-sprite {
+  width: 85%;
+  max-width: 260px;
+  height: auto;
+  object-fit: contain;
+  z-index: 2;
+  animation: floatAlien 4.5s ease-in-out infinite;
+}
+
+.alien-aurora-ring {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.18) 0%, transparent 75%);
+  border-radius: 50%;
+  z-index: 1;
+  animation: pulseRing 3.5s ease-in-out infinite alternate;
+}
+
+/* SUBTARJETA DE TELEMETRÍA Y CONTENIDO Y DESAFÍO */
+.inner-spec-card {
+  background: rgba(10, 5, 24, 0.65);
+  border: 1px solid rgba(0, 242, 254, 0.2);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.spec-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.spec-token {
+  background: rgba(219, 0, 255, 0.15);
+  color: var(--cyber-pink);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: bold;
+  border: 1px solid rgba(219, 0, 255, 0.25);
+}
+
+.spec-title {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  font-family: monospace;
+}
+
+.spec-prose {
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+}
+
+.small-text {
+  font-size: 0.9rem;
+  color: var(--text-small);
+}
+
+/* BLOQUE DE CÓDIGO JAVASCRIPT RESALTADO */
+.syntax-example-box {
+  background: #060312;
+  border-left: 4px solid var(--cyber-cyan);
+  padding: 16px;
+  border-radius: 0 12px 12px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 20px 0;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+/* Resaltado de sintaxis JavaScript */
+.keyword-js { color: var(--cyber-pink); font-weight: bold; }
+.variable-js { color: var(--cyber-cyan); }
+.string-js { color: #2ecc71; }
+.number-js { color: #f1c40f; }
+
+/* RECUADRO DE DESAFÍO EN NEÓN MORADO */
+.spec-challenge-text {
+  color: var(--text-main);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  background: rgba(185, 0, 255, 0.07);
+  padding: 15px 18px;
+  border-radius: 10px;
+  border: 1px solid rgba(185, 0, 255, 0.25);
+  margin: 24px 0;
+}
+
+/* BOTÓN DE ACCIÓN ACCENTUADO EN VERDE BRILLANTE */
+.btn-cyber-comenzar {
+  width: 100%;
+  background: var(--cyber-green);
+  color: #05140b;
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(46, 204, 113, 0.35);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-cyber-comenzar:hover {
+  background: var(--cyber-green-hover);
+  box-shadow: 0 0 30px rgba(46, 204, 113, 0.7);
+  transform: translateY(-2px);
+}
+
+.btn-cyber-comenzar:active {
+  transform: translateY(1px);
+}
+
+/* LOGO O FIRMA COMPONENTE */
+.brand-footer-signature {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* ANIMACIONES DE FLOTACIÓN Y PULSO */
+@keyframes floatAlien {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes pulseRing {
+  from { transform: scale(0.92); opacity: 0.3; }
+  to { transform: scale(1.12); opacity: 0.55; }
+}
+
+/* RESPONSIVE PARA PANTALLAS PEQUEÑAS */
+@media (max-width: 850px) {
+  .theory-interactive-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .back-to-map-link {
+    top: 20px;
+    left: 20px;
+  }
+  .main-cyber-title {
+    font-size: 2.2rem;
+  }
+  .sub-cyber-title {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+  .glass-card-container {
+    padding: 25px;
+  }
+}

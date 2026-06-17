@@ -1,0 +1,244 @@
+/* ==========================================================================
+   1. CANVAS DE ANIMACIÓN - CONTENEDOR PRINCIPAL
+   ========================================================================== */
+.canvas-recolector-view {
+  background: rgba(22, 11, 41, 0.55);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1 !important;
+}
+
+/* ==========================================================================
+   2. MARCADOR DE PUNTOS SUPERIOR (HUD)
+   ========================================================================== */
+.puntos-hud {
+  width: 100%;
+  background: rgba(16, 12, 30, 0.85);
+  border: 1px solid #00f0ff;
+  border-left: 4px solid #00f2fe;
+  border-radius: 8px;
+  padding: 12px;
+  box-sizing: border-box;
+  margin-bottom: 14px;
+}
+
+.hud-meta-data { 
+  display: flex; 
+  justify-content: space-between; 
+  font-size: 10px; 
+  font-family: 'Fira Code', monospace; 
+}
+
+.hud-label { color: #00f2fe; letter-spacing: 1px; }
+.hud-limite-aviso { color: #ff5555; font-weight: bold; }
+
+.hud-number { 
+  font-size: 28px; 
+  font-family: 'Fira Code', monospace; 
+  color: #fff; 
+  margin: 4px 0; 
+  transition: all 0.3s ease; 
+  font-weight: bold; 
+}
+
+.hud-number.overload-danger { color: #ff5555; text-shadow: 0 0 15px #ff5555; }
+.hud-number span { font-size: 12px; color: #9d8db5; margin-left: 4px; }
+
+.hud-bar-wrapper { width: 100%; height: 5px; background: rgba(255, 255, 255, 0.08); border-radius: 3px; overflow: hidden; }
+.hud-fill { height: 100%; background: #00f2fe; transition: width 0.4s ease-in-out; box-shadow: 0 0 8px #00f2fe; }
+.hud-fill.bar-danger { background: #ff5555; box-shadow: 0 0 12px #ff5555; }
+
+/* ==========================================================================
+   3. SECCIÓN INTERMEDIA - WORKSPACE DIVIDIDO
+   ========================================================================== */
+.simulation-workspace-split {
+  display: flex;
+  flex-direction: row; 
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
+  height: 280px; 
+  min-height: 280px;
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   4. LA CUADRÍCULA DEL MAPA (CON IMAGEN DE FONDO COMPLETA)
+   ========================================================================== */
+.map-grid-viewport {
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) !important; 
+  grid-template-rows: repeat(5, 1fr) !important;    
+  background-color: #06010f !important;
+  
+  /* Ajuste para que la imagen cubra completamente el contenedor */
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  
+  border: 2px solid #bd00ff;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: 0 0 15px rgba(189, 0, 255, 0.4);
+
+  /* Dimensiones fijas */
+  width: 280px !important;  
+  height: 280px !important; 
+  aspect-ratio: 1 / 1 !important;
+  flex-shrink: 0; 
+  
+  align-items: center;
+  justify-items: center;
+  padding: 10px;
+}
+
+/* ==========================================================================
+   5. ELEMENTOS INTERNOS DEL MAPA
+   ========================================================================== */
+.gema-quantum-item,
+.robot-collector-entity {
+  display: flex !important; 
+  align-items: center !important; 
+  justify-content: center !important;
+  font-size: 2rem; 
+  width: 100%;
+  height: 100%;
+}
+
+.gema-quantum-item {
+  filter: drop-shadow(0 0 8px #00f2fe);
+  animation: floatGem 2s infinite ease-in-out;
+  z-index: 3;
+}
+
+.alien-character-wrapper {
+  z-index: 4;
+  transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.alien-sprite-img {
+  width: 80%;      
+  height: 80%;      
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.6));
+}
+
+/* CÍRCULO ESCÁNER DEBAJO DEL ALIEN */
+.pulse-proximity-scanner {
+  position: absolute; 
+  width: 50px; 
+  height: 50px;
+  border: 2px solid rgba(0, 242, 254, 0.3); 
+  border-radius: 50%;
+  animation: radar 1.4s infinite linear;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   6. CONSOLA DE TELEMETRÍA (LADO DERECHO)
+   ========================================================================== */
+.telemetry-terminal-console {
+  background: #090514;
+  border: 1px solid #33145a;
+  border-radius: 8px;
+  display: flex; 
+  flex-direction: column;
+  padding: 12px; 
+  box-sizing: border-box;
+  flex-grow: 1; 
+  height: 280px; 
+  min-height: 280px;
+  overflow: hidden;
+}
+
+.console-title-bar {
+  font-family: 'Fira Code', monospace; 
+  font-size: 10px;
+  color: #db00ff; 
+  border-bottom: 1px solid rgba(219, 0, 255, 0.15);
+  padding-bottom: 6px; 
+  margin-bottom: 8px; 
+  letter-spacing: 0.5px;
+}
+
+.console-logs-flow {
+  flex: 1; 
+  padding: 5px 10px;
+  overflow-y: auto;
+  font-family: 'Courier New', Courier, monospace; 
+  font-size: 0.9rem; 
+  line-height: 16px; 
+  color: #00ff66;
+}
+
+.console-line { margin-bottom: 6px; white-space: pre-wrap; }
+
+/* ==========================================================================
+   7. KEYFRAMES / ANIMACIONES
+   ========================================================================== */
+@keyframes floatGem { 
+  0%, 100% { transform: translateY(0); } 
+  50% { transform: translateY(-4px); } 
+}
+@keyframes radar { 
+  0% { transform: scale(0.8); opacity: 1; } 
+  100% { transform: scale(1.4); opacity: 0; } 
+}
+
+/* Estado crítico del contenedor del HUD */
+.hud-critico-overload {
+  border-color: #ff0055 !important;
+  background: rgba(255, 0, 85, 0.15) !important;
+  animation: pulse-danger 0.5s infinite alternate;
+}
+
+/* Efecto de explosión sobre el muñeco */
+.alien-character-wrapper.explosion-active {
+  animation: shake-collapse 0.3s infinite;
+}
+
+.alien-damaged {
+  filter: grayscale(0.3) sepia(1) hue-rotate(-50deg) brightness(1.4);
+}
+
+.mini-explosion-particle-container {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  animation: pop-up-boom 0.6s ease-out forwards;
+}
+
+/* Animaciones */
+@keyframes pulse-danger {
+  from { box-shadow: 0 0 5px #ff0055; }
+  to { box-shadow: 0 0 20px #ff0055; }
+}
+
+@keyframes shake-collapse {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  20% { transform: translate(-1px, -2px) rotate(-1deg); }
+  40% { transform: translate(-3px, 0px) rotate(1deg); }
+  60% { transform: translate(0px, 2px) rotate(0deg); }
+  80% { transform: translate(1px, -1px) rotate(1deg); }
+  100% { transform: translate(-1px, 2px) rotate(-1deg); }
+}
+
+@keyframes pop-up-boom {
+  0% { transform: scale(0.5) translateX(-50%); opacity: 0; }
+  50% { transform: scale(1.5) translateX(-50%); opacity: 1; }
+  100% { transform: scale(1.2) translateX(-50%); opacity: 0; }
+}
