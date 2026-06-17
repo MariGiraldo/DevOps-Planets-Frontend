@@ -70,36 +70,26 @@ function Nivel3() {
     return `${m}:${s.toString().padStart(2, '0')}`
   }, [timer])
 
-  const handleExecute = async () => {
+   const handleExecute = () => {
+  const normalized = code.replace(/\s+/g, '').toLowerCase()
+
+  const valid =
+    normalized.includes('inttotal=minerales+energia') &&
+    normalized.includes('if(total>=70)')
 
   setOutput('Analizando recursos...')
   setStage(1)
 
-  const response = await fetch(
-    'http://localhost:8080/api/nivel3',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        codigo: code
-      })
-    }
-  )
-
-  const data = await response.json()
-
-  if (!data.correcto) {
-
+  if (!valid) {
     setTimeout(() => {
       setStage(2)
-      setOutput(data.mensaje)
+      setOutput('❌ RECURSOS INSUFICIENTES')
       setIsCorrect(false)
     }, 1500)
 
     return
   }
+
 
 
   setAnimationStep(1)
@@ -273,9 +263,18 @@ if (recursos >= 50) {
         <section className="panel">
           <h2>Simulación</h2>
 
+
+
+                   
           <div className="animation-world">
 
-           
+          
+  {animationStep < 3 && (
+  <>
+    <div className="path path-1" />
+    <div className="path path-2" />
+  </>
+)}
 
   <img
   src={diamond}
