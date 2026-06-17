@@ -37,7 +37,7 @@ export default function Login() {
       localStorage.setItem('usuario', data.nombreUsuario);
 
       // 3. Redirigir al usuario al mapa del mundo espacial
-      navigate('/mundo');
+      navigate('/mundo-niveles');
 
     } catch (err: any) {
       console.error('Falló el inicio de sesión:', err);

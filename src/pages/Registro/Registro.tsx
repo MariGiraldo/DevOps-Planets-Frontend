@@ -43,7 +43,7 @@ export default function Registro() {
       localStorage.setItem('token', data.token);
       
       // 4. Redirección directa al mapa del mundo espacial
-      navigate('/mundo');
+      navigate('/mundo-niveles');
 
     } catch (err: any) {
       console.error('Falló el registro en el servidor:', err);

@@ -61,15 +61,15 @@ export function useNivel(levelId: number, initialTimer: number = 180) {
   // 5. Return everything the component will need
   return {
     nivel,
-    setLoading,
-    loading,
+     token,
+       loading,
+     error,
     setError,
-    error,
-    
-    
-    formattedTimer,
     revealEnabled,
-    setRevealEnabled,
-    token
+     setRevealEnabled,
+    formattedTimer
+    
+   
+   
   };
 }

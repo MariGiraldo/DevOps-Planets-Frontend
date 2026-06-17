@@ -5,6 +5,7 @@ import './Nivel1.css';
 import { api } from '../../services/api';
 import { Nivel } from '../../models/Nivel';
 import { EvaluacionResponse } from '../../models/EvaluacionResponse';
+import { useNivel } from '../../hooks/useNivel';
 
 const INITIAL_CODE = `function declarar(){
 }`;
@@ -18,62 +19,30 @@ const SOLUTION_CODE = `public class Main {
 
 function Nivel1() {
   // --- 1. State Hooks ---
-  const [nivel, setNivel] = useState<Nivel | null>(null);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-  const [code, setCode] = useState(INITIAL_CODE); // Initialized with starter code
-  const [output, setOutput] = useState('Aquí se mostrará el resultado de la ejecución.');
+const navigate = useNavigate();
+  
+  
+const { 
+   
+    nivel, token,
+  
+    loading, 
+    error, setError,
+    revealEnabled, setRevealEnabled,
+     formattedTimer 
+  } = useNivel(1);
+
+  // You still keep the states that are specific strictly to this editor session
+  const [code, setCode] = useState(INITIAL_CODE);
+  const [output, setOutput] = useState('Aquí se mostrará el resultado...');
   const [isCorrect, setIsCorrect] = useState(false);
-  const [timer, setTimer] = useState(5);
-  const [revealEnabled, setRevealEnabled] = useState(false);
   const [responseUsed, setResponseUsed] = useState(false);
-  const token = localStorage.getItem('token');
 
-  // --- 2. Effect Hooks ---
-  useEffect(() => {
-    const fetchNivel = async () => {
-      try {
-        setLoading(true);
-        if (!token) throw new Error('No token found');
+ 
 
-        const data = await api.getNivel(token, 1);
-        if (!data) {
-          console.error("No hay data");
-        }
-        setNivel(data);
-      } catch (e: any) {
-        console.error('Fallo fetch nivel', e);
-        setError('Error fetching level data');
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchNivel();
-  }, [token]);
 
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setTimer((current) => {
-        if (current <= 1) {
-          setRevealEnabled(true);
-          clearInterval(interval);
-          return 0;
-        }
-        return current - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // --- 3. Memoized Values ---
-  const formattedTimer = useMemo(() => {
-    const minutes = Math.floor(timer / 60);
-    const seconds = timer % 60;
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  }, [timer]);
+  
 
   // --- 4. Handlers ---
   const handleExecute = async () => {
@@ -106,7 +75,7 @@ function Nivel1() {
 
   const handleReveal = () => {
     if (!revealEnabled || responseUsed) return;
-    setCode(nivel?.codigoSolucion || ''); // Insert solution code into the editor
+    setCode(nivel?.codigoSolucion|| ''); // Insert solution code into the editor
     setResponseUsed(true);
     setRevealEnabled(false);
     setOutput('💡 Solución insertada en el editor. Ajusta y ejecuta para continuar.');
@@ -114,7 +83,7 @@ function Nivel1() {
 
   const handleFinish = () => {
     if (!isCorrect) return;
-    navigate('/mundo'); // Or '/mundo-niveles' depending on your routing setup
+    navigate('/mundo-niveles'); // Or '/mundo-niveles' depending on your routing setup
   };
 
   const handleHint = () => {

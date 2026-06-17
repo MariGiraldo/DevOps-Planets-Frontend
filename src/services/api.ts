@@ -3,6 +3,7 @@
 import { Nivel } from "../models/Nivel"
 import { JwtResponse } from "../models/JwtResponse"
 import { EvaluacionResponse } from "../models/EvaluacionResponse"
+import { ProgresoDTO } from "../models/ProgresoDTO"
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api'
 
@@ -95,13 +96,40 @@ evaluarScript: async (token: string, number_level: number, codigo: string): Prom
   });
 
   if (!response.ok) {
-    // 1. Try to read the backend's custom error message (if it sent one)
+   
     const errorText = await response.text(); 
-    // 2. Throw an error that includes the Spring Boot message so your UI can display it
     throw new Error(`Error ${response.status}: ${errorText || 'Fallo al evaluar el código'}`);
   }
 
   const resultado: EvaluacionResponse = await response.json();
   
   return resultado;
-}}
+},
+
+getprogress: async (token:string): Promise <ProgresoDTO[]> =>{
+  try {
+     
+      const response = await fetch(`${API_BASE_URL}/progreso/obtenerallprogress`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error al obtener progreso: ${response.status}`);
+      }
+
+      const data: ProgresoDTO[] = await response.json();
+      return data;
+
+    } catch (error) {
+      console.error("Error en la petición GET obtenerTodoElProgreso:", error);
+      throw error; 
+    }
+  }
+
+
+};
+
