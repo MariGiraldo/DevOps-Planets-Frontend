@@ -1,48 +1,29 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // 1. Importamos el hook de navegación
 import "./MundoNiveles.css";
 import ProgressService, { Nivel } from "../../services/ProgressService";
-import fondoMapa from "../../assets/images/fondo7.png"; 
-import omniImg from "../../assets/images/alien6.png";
-import naveImg from "../../assets/images/nave9.png";
-import musicaMapa from "../../assets/sounds/mapa-loop.mp3";
+import fondoMapa from "../../assets/backgrounds/Fondo.jpeg"; 
+import omniImg from "../../assets/images/omni.png";
 
 const MundoNiveles: React.FC = () => {
   const service = ProgressService.getInstance();
+  const navigate = useNavigate(); // 2. Inicializamos el navegador de rutas
   const [niveles, setNiveles] = useState<Nivel[]>([]);
-  
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  // Función para iniciar el audio
-  const startAudio = () => {
-    if (audioRef.current && audioRef.current.paused) {
-      audioRef.current.play().catch(e => console.error("Error al reproducir:", e));
-    }
-  };
 
   useEffect(() => {
     setNiveles([...service.getNiveles()]);
-
-    // Crear el objeto audio al montar
-    audioRef.current = new Audio(musicaMapa);
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.3;
-
-    // Intentar reproducir automáticamente (muchos navegadores lo bloquearán)
-    audioRef.current.play().catch(() => console.log("Bloqueo de autoplay detectado"));
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      }
-    };
   }, []);
 
   const handleNivelClick = (nivel: Nivel) => {
-    // Activamos el audio al hacer clic en un nivel
-    startAudio();
-
     if (nivel.estado === "BLOQUEADO") return;
+
+    // 3. Si el usuario presiona el Nivel 1, lo enviamos a su respectiva página
+    if (nivel.id === 1) {
+      navigate("/nivel1");
+      return; // Usamos return para evitar que se marque como completado antes de resolver el reto
+    }
+
+    // Comportamiento por defecto para otros niveles provisionales
     service.completarNivel(nivel.id);
     setNiveles([...service.getNiveles()]);
   };
@@ -53,12 +34,12 @@ const MundoNiveles: React.FC = () => {
     return "nivel bloqueado";
   };
 
+  // Lógica para determinar en qué nivel está el OVNI
   const ultimoProgreso = niveles.filter(n => n.estado === "COMPLETADO").length;
   const nivelActivo = ultimoProgreso < 5 ? (ultimoProgreso === 0 ? 1 : ultimoProgreso + 1) : 5;
 
   return (
-    // Añadimos un evento onClick al contenedor para activar el audio al primer clic
-    <div className="mundo-container" style={{ backgroundImage: `url(${fondoMapa})` }} onClick={startAudio}>
+    <div className="mundo-container" style={{ backgroundImage: `url(${fondoMapa})` }}>
 
       <div className="header">
         <h1>🪐 Mapa del Planeta (Marte)</h1>
@@ -67,8 +48,8 @@ const MundoNiveles: React.FC = () => {
         </div>
       </div>
 
+      {/* OVNI con clase dinámica para su posición */}
       <img src={omniImg} alt="OVNI" className={`ovni ovni-pos-${nivelActivo}`} />
-      <img src={naveImg} alt="Nave Espacial" className="nave-espacial" />
 
       <div className="mapa">
         {niveles.map((nivel) => (

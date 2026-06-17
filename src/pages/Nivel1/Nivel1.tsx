@@ -1,83 +1,146 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Button from '../../components/Button/Button'
-import './Nivel1.css'
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../components/Button/Button';
+import './Nivel1.css';
+import { api } from '../../services/api';
+import { Nivel } from '../../models/Nivel';
+import { EvaluacionResponse } from '../../models/EvaluacionResponse';
 
+const INITIAL_CODE = `function declarar(){
+}`;
 
-
-const INITIAL_CODE = `public class Main {
-    public static void main(String[] args) {
-        // Escribe tu código abajo de esta línea ...
-        System.out.println("Planeta: " + planeta);
-    }
-}`
 const SOLUTION_CODE = `public class Main {
     public static void main(String[] args) {
         String planeta = "Marte";
         System.out.println("Planeta: " + planeta);
     }
-}`
+}`;
 
 function Nivel1() {
-  const navigate = useNavigate()
-  const [code, setCode] = useState(INITIAL_CODE)
-  const [output, setOutput] = useState('Aquí se mostrará el resultado de la ejecución.')
-  const [isCorrect, setIsCorrect] = useState(false)
-  const [timer, setTimer] = useState(180)
-  const [revealEnabled, setRevealEnabled] = useState(false)
-  const [responseUsed, setResponseUsed] = useState(false)
+  // --- 1. State Hooks ---
+  const [nivel, setNivel] = useState<Nivel | null>(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const [code, setCode] = useState(INITIAL_CODE); // Initialized with starter code
+  const [output, setOutput] = useState('Aquí se mostrará el resultado de la ejecución.');
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [timer, setTimer] = useState(5);
+  const [revealEnabled, setRevealEnabled] = useState(false);
+  const [responseUsed, setResponseUsed] = useState(false);
+  const token = localStorage.getItem('token');
+
+  // --- 2. Effect Hooks ---
+  useEffect(() => {
+    const fetchNivel = async () => {
+      try {
+        setLoading(true);
+        if (!token) throw new Error('No token found');
+
+        const data = await api.getNivel(token, 1);
+        if (!data) {
+          console.error("No hay data");
+        }
+        setNivel(data);
+      } catch (e: any) {
+        console.error('Fallo fetch nivel', e);
+        setError('Error fetching level data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNivel();
+  }, [token]);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
       setTimer((current) => {
         if (current <= 1) {
-          setRevealEnabled(true)
-          clearInterval(interval)
-          return 0
+          setRevealEnabled(true);
+          clearInterval(interval);
+          return 0;
         }
-        return current - 1
-      })
-    }, 1000)
+        return current - 1;
+      });
+    }, 1000);
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, []);
 
+  // --- 3. Memoized Values ---
   const formattedTimer = useMemo(() => {
-    const minutes = Math.floor(timer / 60)
-    const seconds = timer % 60
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`
-  }, [timer])
+    const minutes = Math.floor(timer / 60);
+    const seconds = timer % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  }, [timer]);
 
-  const handleExecute = () => {
-    const normalized = code.replace(/\s+/g, '').toLowerCase()
-    const valid = normalized.includes('stringplaneta="marte"') || normalized.includes('stringplaneta=\"marte\"')
-    if (valid) {
-      setOutput('✅ ¡Correcto! El código declara la variable y la imprime correctamente.')
-      setIsCorrect(true)
-    } else {
-      setOutput('❌ Revisa la sintaxis: declara una variable String llamada planeta y guárdale "Marte".')
-      setIsCorrect(false)
+  // --- 4. Handlers ---
+  const handleExecute = async () => {
+    setError('');
+    setOutput('Evaluando tu código en Marte...');
+
+    try {
+      if (!token) {
+        setError('No se encontró la sesión. Por favor inicia sesión.');
+        return;
+      }
+
+      // API Call to Spring Boot
+      const respuesta: EvaluacionResponse = await api.evaluarScript(token, 1, code);
+      
+      // Update state based on backend evaluation
+      setIsCorrect(respuesta.correcto);
+
+      if (respuesta.correcto) {
+        setOutput(`¡Excelente! 🎉\n${respuesta.mensaje}`);
+      } else {
+        setOutput(`Error en la compilación: ❌\n${respuesta.mensaje}`);
+      }
+    } catch (err: any) {
+      console.error("Error al ejecutar el script:", err);
+      setError(err.message || 'Hubo un problema de conexión con el servidor.');
+      setIsCorrect(false);
     }
-  }
+  };
 
   const handleReveal = () => {
-    if (!revealEnabled || responseUsed) return
-    setCode(SOLUTION_CODE)
-    setResponseUsed(true)
-    setRevealEnabled(false)
-    setOutput('💡 Solución insertada en el editor. Ajusta y ejecuta para continuar.')
-  }
+    if (!revealEnabled || responseUsed) return;
+    setCode(nivel?.codigoSolucion || ''); // Insert solution code into the editor
+    setResponseUsed(true);
+    setRevealEnabled(false);
+    setOutput('💡 Solución insertada en el editor. Ajusta y ejecuta para continuar.');
+  };
 
   const handleFinish = () => {
-  if (!isCorrect) return
-  navigate('/mundo-niveles')
-}
+    if (!isCorrect) return;
+    navigate('/mundo'); // Or '/mundo-niveles' depending on your routing setup
+  };
 
+  const handleHint = () => {
+    if (!nivel || !nivel.pistas) {
+      setOutput("No hay pistas disponibles para este nivel");
+      return;
+    }
+
+    if (Array.isArray(nivel.pistas)) {
+      const todasLasPistas = nivel.pistas.join('\n📌 ');
+      setOutput(`📌 ${todasLasPistas}`);
+    } else {
+      setOutput(`📌 ${nivel.pistas}`);
+    }
+  };
+
+  // --- 5. Guard Returns (Must be after all Hooks) ---
+  if (loading) return <div>Loading planet data...</div>;
+  if (error) return <div>{error}</div>;
+
+  // --- 6. Main Render ---
   return (
     <div className="nivel1-page">
       <div className="nivel-header">
         <div>
-          <button className="back-button" onClick={() => navigate('/mundo-niveles')}>
+          <button className="back-button" onClick={() => navigate('/mundo')}>
             ← Volver al mapa
           </button>
           <h1>Nivel 1: Guardar información</h1>
@@ -92,15 +155,16 @@ function Nivel1() {
       <div className="nivel-grid">
         <section className="panel theory-panel">
           <h2>Teoría</h2>
-          <p>Una variable es un espacio en memoria donde se guarda información para usarla luego.</p>
-          <p>En Java, primero defines el tipo, después el nombre y finalmente el valor.</p>
+          {/* Fallback to text if API doesn't provide theory */}
+          <p>{nivel?.teoria || 'Una variable es un espacio en memoria donde se guarda información para usarla luego. En Java, primero defines el tipo, después el nombre y finalmente el valor.'}</p>
           
           <div className="challenge-box">
             <h3>Ejercicio</h3>
-            <p>Declara una variable String llamada <strong>planeta</strong> y guarda en ella el texto <strong>"Marte"</strong>. Luego ejecuta el código.</p>
+            <p><strong>{nivel?.descripcionReto || 'Declara una variable String llamada planeta y guarda en ella el texto "Marte". Luego ejecuta el código.'}</strong></p>
           </div>
+          
           <div className="actions-row">
-            <Button onClick={() => setOutput('📌 Pista: Usa "String" seguido del nombre de la variable y el valor entre comillas.')}>Pista</Button>
+            <Button onClick={handleHint}>Pista</Button>
             <Button variant="secondary" onClick={handleReveal} disabled={!revealEnabled || responseUsed}>
               {responseUsed ? 'Respuesta usada' : 'Mostrar respuesta'}
             </Button>
@@ -135,30 +199,31 @@ function Nivel1() {
           </Button>
         </section>
 
+        {/* --- Galaga Animation Panel --- */}
         <section className="panel animation-panel">
-  <h2>Misión Espacial</h2>
-  <div className={`galaga-stage ${isCorrect ? 'is-victory' : ''}`}>
-    <div className="stars" />
-    <div className="ship">🚀</div>
-    {!isCorrect && (
-      <>
-        <div className="invader inv-1">👾</div>
-        <div className="invader inv-2">👾</div>
-        <div className="invader inv-3">👾</div>
-      </>
-    )}
-    {isCorrect && <div className="laser" />}
-    {isCorrect && <div className="boom">💥</div>}
-  </div>
-  <p className="galaga-caption">
-    {isCorrect
-      ? '¡Código correcto! Nave despegando hacia el aprendizaje.'
-      : 'Resuelve el ejercicio para activar el ataque.'}
-  </p>
-</section>
+          <h2>Misión Espacial</h2>
+          <div className={`galaga-stage ${isCorrect ? 'is-victory' : ''}`}>
+            <div className="stars" />
+            <div className="ship">🚀</div>
+            {!isCorrect && (
+              <>
+                <div className="invader inv-1">👾</div>
+                <div className="invader inv-2">👾</div>
+                <div className="invader inv-3">👾</div>
+              </>
+            )}
+            {isCorrect && <div className="laser" />}
+            {isCorrect && <div className="boom">💥</div>}
+          </div>
+          <p className="galaga-caption">
+            {isCorrect
+              ? '¡Código correcto! Nave despegando hacia el aprendizaje.'
+              : 'Resuelve el ejercicio para activar el ataque.'}
+          </p>
+        </section>
       </div>
     </div>
-  )
+  );
 }
 
-export default Nivel1
+export default Nivel1;

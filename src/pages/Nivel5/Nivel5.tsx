@@ -5,23 +5,67 @@ import { ResultsPanel } from '../../components/Nivel-5/ResultsPanel/ResultsPanel
 import { CodeEditor } from '../../components/Nivel-5/CodeEditor/CodeEditor';
 import { GameCanvas } from '../../components/Nivel-5/GameCanvas/GameCanvas';
 import { useLevel5Store } from './state/level5Store';
+import { api } from '../../services/api';
+import { Nivel } from '../../models/Nivel';
+import { EvaluacionResponse } from '../../models/EvaluacionResponse';
 import './Nivel5.css';
+
+// El evaluador concatena este código con "evaluarFlujo()" y ejecuta todo como un solo script.
+// Por eso TODO debe vivir dentro de la función, incluyendo el console.log final.
+const INITIAL_JAVASCRIPT_CODE = `function evaluarFlujo() {
+  let suma = 0;
+
+  // Escribe tu bucle for y las condiciones en JavaScript aquí abajo:
+  for (let i = 1; i <= 10; i++) {
+
+  }
+
+  console.log(suma);
+}`;
 
 export const Nivel5: React.FC = () => {
   const navigate = useNavigate(); 
+
   const { setPos, sumarPuntos, addConsoleMessage, resetLevel, setIsLevelCompleted } = useLevel5Store();
 
-  const [timeLeft, setTimeLeft] = useState<number>(180);
+  const [nivelData, setNivelData] = useState<Nivel | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [backendError, setBackendError] = useState<string>('');
+
+  const [code, setCode] = useState<string>(INITIAL_JAVASCRIPT_CODE);
+  const [outputConsole, setOutputConsole] = useState<string>('Esperando inicialización de parámetros cuánticos...');
+  const [isCorrect, setIsCorrect] = useState<boolean>(false);
+  const [timeLeft, setTimeLeft] = useState<number>(2);
+  const [revealEnabled, setRevealEnabled] = useState<boolean>(false);
+
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
+    const fetchNivelCore = async () => {
+      try {
+        setLoading(true);
+        if (!token) throw new Error('Sesión inválida o expirada.');
+
+        const data = await api.getNivel(token, 5);
+        setNivelData(data);
+      } catch (e: any) {
+        console.error('Fallo al recuperar metadatos del nivel 5:', e);
+        setBackendError('Error al sincronizar datos del servidor.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
     resetLevel();
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [resetLevel]);
+    fetchNivelCore();
+  }, [token, resetLevel]);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
       setTimeLeft((current) => {
         if (current <= 1) {
+          setRevealEnabled(true);
           clearInterval(interval);
           return 0;
         }
@@ -38,63 +82,61 @@ export const Nivel5: React.FC = () => {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   }, [timeLeft]);
 
-  const isRevealDisabled = timeLeft > 0;
-
-  // CONTROLADOR DE COMPILACIÓN CON SIMULACIÓN DE ESCAPE O SOBRECARGA
-  const handleExecuteCode = (studentCode: string) => {
+  const handleExecuteCode = async (studentCode: string) => {
+    setBackendError('');
+    setIsLevelCompleted(false);
+    setIsCorrect(false);
     resetLevel();
+    addConsoleMessage("> [GraalVM JS] Evaluando flujo secuencial en el servidor...");
+    setOutputConsole('Sincronizando flujos de control con la base central de Marte...');
 
-    const tieneForJava = studentCode.includes('for') && (studentCode.includes('int i') || studentCode.includes('i <='));
-    const tieneCondicionPar = studentCode.includes('% 2 == 0');
-    const tieneCuadrado = studentCode.includes('* i') || studentCode.includes('cuadrado');
-    const tieneAcumulador = studentCode.includes('suma +=') || studentCode.includes('suma = suma +');
-    const tienePrintJava = studentCode.includes('System.out.println');
-    const tieneBreak = studentCode.includes('break;');
-
-    // Estructura básica mínima de bucle construida
-    if (tieneForJava && tieneCondicionPar && tieneCuadrado && tieneAcumulador && tienePrintJava) {
-      addConsoleMessage("> [JVM] Compilando ControlFlujo.java con éxito...");
-      addConsoleMessage("> Iniciando bucle iterativo sobre la matriz cuántica de la app...");
-
-      // Pasos comunes iniciales (Nodos 2, 4, 6, 8)
-      setTimeout(() => { setPos(1, 1); sumarPuntos(4, 2); addConsoleMessage("> [i = 2] Nodo Par. Cuadrado: 4. Suma: 4u."); }, 1000);
-      setTimeout(() => { setPos(3, 1); sumarPuntos(16, 4); addConsoleMessage("> [i = 4] Nodo Par. Cuadrado: 16. Suma: 20u."); }, 2000);
-      setTimeout(() => { setPos(1, 3); sumarPuntos(36, 6); addConsoleMessage("> [i = 6] Nodo Par. Cuadrado: 36. Suma: 56u."); }, 3000);
-      setTimeout(() => { setPos(3, 3); sumarPuntos(64, 8); addConsoleMessage("> [i = 8] Nodo Par. Cuadrado: 64. Suma: 120u."); }, 4000);
-
-      if (tieneBreak) {
-        // CAMINO A: El estudiante usó correctamente la instrucción break de escape
-        setTimeout(() => {
-          sumarPuntos(100, 10); // Agrega nodo 10 (Suma = 220)
-          addConsoleMessage("> [i = 10] Nodo Par. Cuadrado: 100. Suma: 220u.");
-          addConsoleMessage("> [System.out.println]: Flujo de la app finalizado. Output -> 220");
-          addConsoleMessage("> [ÉXITO]: Sentencia 'break' resguardada con éxito. Nivel completado.");
-          if (setIsLevelCompleted) setIsLevelCompleted(true);
-        }, 5000);
-
-      } else {
-        // CAMINO B: ¡FALTA EL BREAK! El recolector se sale de control y recolecta las nuevas celdas par
-        setTimeout(() => {
-          sumarPuntos(100, 10); 
-          addConsoleMessage("> [i = 10] Nodo Par. Cuadrado: 100. Suma: 220u.");
-        }, 5000);
-
-        setTimeout(() => {
-          setPos(2, 2); // Se mueve al centro de sobrecarga
-          sumarPuntos(144, 12); // Agrega nodo par 12 (12*12 = 144) -> Total = 364u (Supera los 300)
-          addConsoleMessage("> [⚠️ CRÍTICO] [i = 12] Nodo Par detectado. Cuadrado: 144. Suma: 364u.");
-        }, 6000);
-
-        setTimeout(() => {
-          addConsoleMessage("> 💥 [SOBRECARGA DETECTADA]: La suma superó las 300 unidades de antimateria permitidas.");
-          addConsoleMessage("> ❌ ERROR OPERACIONAL: Contenedores destruídos por falta de sentencia de escape 'break;'.");
-        }, 7000);
+    try {
+      if (!token) {
+        setBackendError('Error de autenticación. Inicia sesión nuevamente.');
+        return;
       }
 
-    } else {
-      addConsoleMessage("> ❌ JAVA COMPILATION ERROR: Estructura lógica inválida. Revisa los componentes mínimos del bucle for e impresión.");
+      const respuesta: EvaluacionResponse = await api.evaluarScript(token, 5, studentCode);
+
+      setIsCorrect(respuesta.correcto);
+      setIsLevelCompleted(respuesta.correcto);
+
+      if (respuesta.correcto) {
+        setOutputConsole(`¡ÉXITO OPERACIONAL! 🎉\n${respuesta.mensaje}`);
+        addConsoleMessage("> [OK] Ejecución exitosa en JavaScript.");
+        addConsoleMessage("> [PROGRESO]: Sentencia 'break' detectada en el umbral crítico.");
+
+        setTimeout(() => { setPos(1, 1); sumarPuntos(4, 2); }, 800);
+        setTimeout(() => { setPos(3, 1); sumarPuntos(16, 4); }, 1600);
+        setTimeout(() => { setPos(1, 3); sumarPuntos(36, 6); }, 2400);
+        setTimeout(() => { setPos(3, 3); sumarPuntos(64, 8); }, 3200);
+
+      } else {
+        setOutputConsole(`Error en la evaluación del script: ❌\n${respuesta.mensaje}`);
+        addConsoleMessage("> ❌ ERROR: Flujo interrumpido catastróficamente o faltan directivas de escape.");
+
+        if (studentCode.includes('for')) {
+          setTimeout(() => { setPos(2, 2); }, 1000);
+          addConsoleMessage("> 💥 [CRÍTICO]: Suma superior a 300 unidades. Sistemas colapsados.");
+        }
+      }
+    } catch (err: any) {
+      console.error("Error de red o compilación remota:", err);
+      setBackendError(err.message || 'Problema de enlace de datos con Spring Boot.');
+      setOutputConsole('Error de pasarela: No se pudo obtener respuesta del motor de evaluación.');
+      setIsCorrect(false);
     }
   };
+
+  const handleRevealSolutionInEditor = () => {
+    if (!revealEnabled) return;
+    const jsSolution = `function evaluarFlujo() {\n  let suma = 0;\n  for (let i = 1; i <= 10; i++) {\n    if (i % 2 === 0) {\n      let cuadrado = i * i;\n      suma += cuadrado;\n      if (suma > 300) {\n        break;\n      }\n    }\n  }\n  console.log(suma);\n}`;
+    setCode(jsSolution);
+    setOutputConsole('💡 Solución oficial en JavaScript inyectada en el búfer. Ejecuta el código para completar el nivel.');
+  };
+
+  if (loading) return <div className="loading-viewport">Cargando telemetría cuántica de Marte...</div>;
+  if (backendError) return <div className="error-viewport">⚠️ {backendError}</div>;
 
   return (
     <div className="nivel5-container"> 
@@ -103,7 +145,7 @@ export const Nivel5: React.FC = () => {
 
       <div className="cyber-level-header">
         <div className="header-left-block">
-          <button className="back-button-cyber" onClick={() => navigate('/mundo')}>
+          <button className="back-button-cyber" onClick={() => navigate('/mundo-niveles')}>
             ← Volver al mapa
           </button>
           <div className="header-glitch-wrapper">
@@ -122,16 +164,26 @@ export const Nivel5: React.FC = () => {
       <div className="game-level-workspace nivel5-layout">
         <div className="layout-left">
           <div className="quadrant-wrapper theory-mission-card">
-            <InstructionPanel isRevealDisabled={isRevealDisabled} />
+            <InstructionPanel 
+              isRevealDisabled={!revealEnabled} 
+              onReveal={handleRevealSolutionInEditor}
+              teoria={nivelData?.teoria}
+              descripcion={nivelData?.descripcionReto}
+            />
           </div>
           <div className="quadrant-wrapper results-card">
-            <ResultsPanel />
+            <ResultsPanel output={outputConsole} isCorrect={isCorrect} />
           </div>
         </div>
 
         <div className="layout-right">
           <div className="quadrant-wrapper editor-card">
-            <CodeEditor onExecute={handleExecuteCode} />
+            <CodeEditor 
+              code={code} 
+              setCode={setCode} 
+              onExecute={handleExecuteCode} 
+              initialCode={nivelData?.codigoSolucion || ''}
+            />
           </div>
           <div className="quadrant-wrapper canvas-card">
             <GameCanvas /> 
