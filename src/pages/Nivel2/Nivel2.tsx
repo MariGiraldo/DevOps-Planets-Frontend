@@ -96,7 +96,7 @@ function Nivel2() {
             ← Volver al mapa
           </button>
 
-          <h1>Nivel 2: Condicionales Básicas</h1>
+          <h1>Nivel 2: Variables y operación</h1>
 
           <p>
             Determina si un número es par o impar usando el operador módulo.

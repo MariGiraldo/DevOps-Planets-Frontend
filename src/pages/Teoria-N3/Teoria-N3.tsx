@@ -2,15 +2,15 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import omniAlienImg from '../../assets/images/omni.png'; 
 
-// IMPORTAMOS TU IMAGEN DE FONDO REAL
+// IMPORTAMOS LA IMAGEN DE FONDO
 import fondoEspacial from '../../assets/backgrounds/Fondo.jpeg'; 
-import './Teoria-N1.css';
+import './Teoria-N3.css'; 
 
-export const TeoriaN1: React.FC = () => {
+export const TeoriaN3: React.FC = () => {
   const navigate = useNavigate();
 
   const handleComenzar = () => {
-    navigate('/nivel1'); 
+    navigate('/nivel3'); 
   };
 
   const handleVolverAlMapa = () => {
@@ -35,13 +35,13 @@ export const TeoriaN1: React.FC = () => {
         <div className="card-telemetry-header">
           <span className="geo-icon">⌖</span>
           <span className="line-deco"></span>
-          <span className="location-tag">📍 MARTE_SECTOR_1</span>
+          <span className="location-tag">📍 MARTE_SECTOR_3</span>
         </div>
 
         {/* Títulos Principales */}
         <div className="header-titles-block">
-          <h1 className="main-cyber-title">Nivel 1: Variables</h1>
-          <h2 className="sub-cyber-title">Guardar Información</h2>
+          <h1 className="main-cyber-title">Nivel 3: Condicionales</h1>
+          <h2 className="sub-cyber-title">Toma de Decisiones</h2>
         </div>
 
         {/* Layout de Contenido Distribuido */}
@@ -52,43 +52,48 @@ export const TeoriaN1: React.FC = () => {
             <div className="alien-aurora-ring"></div>
             <img 
               src={omniAlienImg} 
-              srcSet="" 
               alt="Mascota Omni Astronauta" 
               className="alien-floating-sprite" 
             />
           </div>
 
-          {/* Bloque Derecho: Subtarjeta de Teoría Extendida de JavaScript */}
+          {/* Bloque Derecho: Subtarjeta de Teoría de Condicionales en JS */}
           <div className="inner-spec-card">
             <div className="spec-header">
-              <span className="spec-token">JavaScript Core</span>
-              <span className="spec-title">Tema: 'Guardar información'</span>
+              <span className="spec-token">JavaScript Logic</span>
+              <span className="spec-title">Tema: 'Estructuras IF / ELSE'</span>
             </div>
             
             <div className="spec-body-content">
               <p className="spec-prose">
-                Para que nuestra nave pueda explorar Marte, necesita procesar y memorizar datos constantemente. Una <strong>variable</strong> es como un contenedor virtual en la memoria de la computadora donde guardamos telemetría, recursos o nombres.
+                Explorar Marte requiere autonomía. Nuestra nave no puede preguntarnos qué hacer a cada segundo; debe <strong>tomar decisiones por sí sola</strong> analizando las variables de su entorno.
               </p>
               <p className="spec-prose">
-                A diferencia de otros lenguajes, <strong>JavaScript es de tipado dinámico</strong>. Esto significa que las "cajas" se adaptan automáticamente a lo que guardes dentro (texto, números, etc.) sin necesidad de declarar un tipo estricto. Usamos <code>let</code> para valores que pueden cambiar y <code>const</code> para datos fijos.
+                Las condicionales crean bifurcaciones en el código. Usamos <code>if</code> (si...) para ejecutar acciones solo cuando una condición es <strong>verdadera (true)</strong>, y un <code>else</code> (si no...) opcional para controlar la ruta de escape alternativa.
               </p>
               
               {/* Contenedor de Sintaxis Oficial JavaScript */}
               <div className="syntax-example-box">
-                <span className="keyword-js">let</span> <span className="variable-js">planeta</span> = <span className="string-js">"Marte"</span>;
+                <span className="keyword-js">if</span> (<span className="variable-js">oxigeno</span> &lt; <span className="number-js">20</span>) &#123;
                 <br />
-                <span className="keyword-js">const</span> <span className="variable-js">oxigeno</span> = <span className="number-js">92</span>;
+                &nbsp;&nbsp;<span className="variable-js">alarma</span> = <span className="string-js">"¡Oxígeno Crítico!"</span>;
+                <br />
+                &#125; <span className="keyword-js">else</span> &#123;
+                <br />
+                &nbsp;&nbsp;<span className="variable-js">alarma</span> = <span className="string-js">"Sistemas Estables"</span>;
+                <br />
+                &#125;
               </div>
 
               <p className="spec-prose small-text">
-                • <strong>let:</strong> Permite crear variables cuyo valor puede cambiar o ser reasignado en el viaje.<br />
-                • <strong>const:</strong> Crea una constante. Una vez que guardas un dato aquí, se queda congelado y no puede cambiar.
+                • <strong>Condición (parentesis):</strong> Compara datos y siempre devuelve un valor Booleano (true o false).<br />
+                • <strong>Bloques &#123; &#125;:</strong> Las llaves encierran el set de instrucciones cuánticas que se ejecutarán en cada decisión.
               </p>
             </div>
 
             {/* Botón de Acción Estilo Neón Verde */}
             <button className="btn-cyber-comenzar" onClick={handleComenzar}>
-              COMENZAR
+              INICIAR MISIÓN
             </button>
           </div>
 
@@ -99,4 +104,4 @@ export const TeoriaN1: React.FC = () => {
   );
 };
 
-export default TeoriaN1; 
+export default TeoriaN3;

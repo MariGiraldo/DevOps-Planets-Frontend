@@ -2,15 +2,15 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import omniAlienImg from '../../assets/images/omni.png'; 
 
-// IMPORTAMOS TU IMAGEN DE FONDO REAL
+// IMPORTAMOS LA IMAGEN DE FONDO
 import fondoEspacial from '../../assets/backgrounds/Fondo.jpeg'; 
-import './Teoria-N1.css';
+import './Teoria-N4.css'; 
 
-export const TeoriaN1: React.FC = () => {
+export const TeoriaN4: React.FC = () => {
   const navigate = useNavigate();
 
   const handleComenzar = () => {
-    navigate('/nivel1'); 
+    navigate('/nivel4'); 
   };
 
   const handleVolverAlMapa = () => {
@@ -35,13 +35,13 @@ export const TeoriaN1: React.FC = () => {
         <div className="card-telemetry-header">
           <span className="geo-icon">⌖</span>
           <span className="line-deco"></span>
-          <span className="location-tag">📍 MARTE_SECTOR_1</span>
+          <span className="location-tag">📍 MARTE_SECTOR_4</span>
         </div>
 
         {/* Títulos Principales */}
         <div className="header-titles-block">
-          <h1 className="main-cyber-title">Nivel 1: Variables</h1>
-          <h2 className="sub-cyber-title">Guardar Información</h2>
+          <h1 className="main-cyber-title">Nivel 4: Ciclos</h1>
+          <h2 className="sub-cyber-title">Automatización Repetitiva</h2>
         </div>
 
         {/* Layout de Contenido Distribuido */}
@@ -52,43 +52,48 @@ export const TeoriaN1: React.FC = () => {
             <div className="alien-aurora-ring"></div>
             <img 
               src={omniAlienImg} 
-              srcSet="" 
               alt="Mascota Omni Astronauta" 
               className="alien-floating-sprite" 
             />
           </div>
 
-          {/* Bloque Derecho: Subtarjeta de Teoría Extendida de JavaScript */}
+          {/* Bloque Derecho: Subtarjeta de Teoría de Bucles en JS */}
           <div className="inner-spec-card">
             <div className="spec-header">
-              <span className="spec-token">JavaScript Core</span>
-              <span className="spec-title">Tema: 'Guardar información'</span>
+              <span className="spec-token">JavaScript Loops</span>
+              <span className="spec-title">Tema: 'El bucle WHILE'</span>
             </div>
             
             <div className="spec-body-content">
               <p className="spec-prose">
-                Para que nuestra nave pueda explorar Marte, necesita procesar y memorizar datos constantemente. Una <strong>variable</strong> es como un contenedor virtual en la memoria de la computadora donde guardamos telemetría, recursos o nombres.
+                Escribir el mismo código una y otra vez agota la energía de la computadora de la nave. Para realizar tareas repetitivas de forma eficiente, usamos <strong>ciclos o bucles</strong>.
               </p>
               <p className="spec-prose">
-                A diferencia de otros lenguajes, <strong>JavaScript es de tipado dinámico</strong>. Esto significa que las "cajas" se adaptan automáticamente a lo que guardes dentro (texto, números, etc.) sin necesidad de declarar un tipo estricto. Usamos <code>let</code> para valores que pueden cambiar y <code>const</code> para datos fijos.
+                El bucle <code>while</code> (mientras...) ejecuta un bloque de instrucciones de manera repetida <strong>mientras una condición específica sea verdadera (true)</strong>. Es vital modificar la variable de control dentro del ciclo para evitar un bucle infinito que congele el sistema de navegación.
               </p>
               
               {/* Contenedor de Sintaxis Oficial JavaScript */}
               <div className="syntax-example-box">
-                <span className="keyword-js">let</span> <span className="variable-js">planeta</span> = <span className="string-js">"Marte"</span>;
+                <span className="keyword-js">let</span> <span className="variable-js">vueltas</span> = <span className="number-js">0</span>;
                 <br />
-                <span className="keyword-js">const</span> <span className="variable-js">oxigeno</span> = <span className="number-js">92</span>;
+                <span className="keyword-js">while</span> (<span className="variable-js">vueltas</span> &lt; <span className="number-js">3</span>) &#123;
+                <br />
+                &nbsp;&nbsp;<span className="variable-js">nave</span>.<span className="variable-js">escanearSuelo</span>();
+                <br />
+                &nbsp;&nbsp;<span className="variable-js">vueltas</span> = <span className="variable-js">vueltas</span> + <span className="number-js">1</span>;
+                <br />
+                &#125;
               </div>
 
               <p className="spec-prose small-text">
-                • <strong>let:</strong> Permite crear variables cuyo valor puede cambiar o ser reasignado en el viaje.<br />
-                • <strong>const:</strong> Crea una constante. Una vez que guardas un dato aquí, se queda congelado y no puede cambiar.
+                • <strong>Evaluación Continua:</strong> Antes de cada repetición, el sistema verifica la condición entre paréntesis.<br />
+                • <strong>Contador (`vueltas`):</strong> Incrementa en cada iteración para asegurar que el ciclo se detenga tras cumplir su objetivo espacial.
               </p>
             </div>
 
             {/* Botón de Acción Estilo Neón Verde */}
             <button className="btn-cyber-comenzar" onClick={handleComenzar}>
-              COMENZAR
+              INICIAR SECUENCIA
             </button>
           </div>
 
@@ -99,4 +104,4 @@ export const TeoriaN1: React.FC = () => {
   );
 };
 
-export default TeoriaN1; 
+export default TeoriaN4;

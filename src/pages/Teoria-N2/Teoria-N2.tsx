@@ -2,15 +2,14 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import omniAlienImg from '../../assets/images/omni.png'; 
 
-// IMPORTAMOS TU IMAGEN DE FONDO REAL
+// IMPORTAMOS LA IMAGEN DE FONDO
 import fondoEspacial from '../../assets/backgrounds/Fondo.jpeg'; 
-import './Teoria-N1.css';
-
-export const TeoriaN1: React.FC = () => {
+import "./Teoria-N2.css";
+export const TeoriaN2: React.FC = () => {
   const navigate = useNavigate();
 
   const handleComenzar = () => {
-    navigate('/nivel1'); 
+    navigate('/nivel2'); 
   };
 
   const handleVolverAlMapa = () => {
@@ -18,7 +17,6 @@ export const TeoriaN1: React.FC = () => {
   };
 
   return (
-    /* Aplicamos la imagen de fondo dinámicamente */
     <div 
       className="teoria-n1-bg" 
       style={{ backgroundImage: `url(${fondoEspacial})` }}
@@ -35,13 +33,13 @@ export const TeoriaN1: React.FC = () => {
         <div className="card-telemetry-header">
           <span className="geo-icon">⌖</span>
           <span className="line-deco"></span>
-          <span className="location-tag">📍 MARTE_SECTOR_1</span>
+          <span className="location-tag">📍 MARTE_SECTOR_2</span>
         </div>
 
         {/* Títulos Principales */}
         <div className="header-titles-block">
-          <h1 className="main-cyber-title">Nivel 1: Variables</h1>
-          <h2 className="sub-cyber-title">Guardar Información</h2>
+          <h1 className="main-cyber-title">Nivel 2: Operaciones</h1>
+          <h2 className="sub-cyber-title">Procesando Datos en Marte</h2>
         </div>
 
         {/* Layout de Contenido Distribuido */}
@@ -52,43 +50,44 @@ export const TeoriaN1: React.FC = () => {
             <div className="alien-aurora-ring"></div>
             <img 
               src={omniAlienImg} 
-              srcSet="" 
               alt="Mascota Omni Astronauta" 
               className="alien-floating-sprite" 
             />
           </div>
 
-          {/* Bloque Derecho: Subtarjeta de Teoría Extendida de JavaScript */}
+          {/* Bloque Derecho: Subtarjeta de Teoría de Operaciones en JS */}
           <div className="inner-spec-card">
             <div className="spec-header">
-              <span className="spec-token">JavaScript Core</span>
-              <span className="spec-title">Tema: 'Guardar información'</span>
+              <span className="spec-token">JavaScript Operators</span>
+              <span className="spec-title">Tema: 'Modificar y combinar datos'</span>
             </div>
             
             <div className="spec-body-content">
               <p className="spec-prose">
-                Para que nuestra nave pueda explorar Marte, necesita procesar y memorizar datos constantemente. Una <strong>variable</strong> es como un contenedor virtual en la memoria de la computadora donde guardamos telemetría, recursos o nombres.
+                Ya sabemos guardar información, pero para sobrevivir en Marte necesitamos procesarla. Los <strong>operadores</strong> nos permiten calcular rutas, actualizar el escudo de la nave o fusionar cadenas de texto.
               </p>
               <p className="spec-prose">
-                A diferencia de otros lenguajes, <strong>JavaScript es de tipado dinámico</strong>. Esto significa que las "cajas" se adaptan automáticamente a lo que guardes dentro (texto, números, etc.) sin necesidad de declarar un tipo estricto. Usamos <code>let</code> para valores que pueden cambiar y <code>const</code> para datos fijos.
+                En JavaScript podemos usar operadores matemáticos tradicionales (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>). Además, el símbolo <code>+</code> hace magia doble: si lo usas con números los suma, pero si lo usas con textos los <strong>concatena</strong> (los une en una sola frase).
               </p>
               
               {/* Contenedor de Sintaxis Oficial JavaScript */}
               <div className="syntax-example-box">
-                <span className="keyword-js">let</span> <span className="variable-js">planeta</span> = <span className="string-js">"Marte"</span>;
+                <span className="keyword-js">let</span> <span className="variable-js">minerales</span> = <span className="number-js">50</span> + <span className="number-js">25</span>;
                 <br />
-                <span className="keyword-js">const</span> <span className="variable-js">oxigeno</span> = <span className="number-js">92</span>;
+                <span className="keyword-js">let</span> <span className="variable-js">combustible</span> = <span className="number-js">100</span> - <span className="number-js">15</span>;
+                <br />
+                <span className="keyword-js">let</span> <span className="variable-js">alerta</span> = <span className="string-js">"Peligro: "</span> + <span className="string-js">"Tormenta"</span>;
               </div>
 
               <p className="spec-prose small-text">
-                • <strong>let:</strong> Permite crear variables cuyo valor puede cambiar o ser reasignado en el viaje.<br />
-                • <strong>const:</strong> Crea una constante. Una vez que guardas un dato aquí, se queda congelado y no puede cambiar.
+                • <strong>Matemáticas:</strong> Las variables numéricas reaccionan de inmediato calculando nuevos totales.<br />
+                • <strong>Concatenación:</strong> Unir textos con <code>+</code> es vital para que la IA de la nave envíe reportes legibles al panel.
               </p>
             </div>
 
             {/* Botón de Acción Estilo Neón Verde */}
             <button className="btn-cyber-comenzar" onClick={handleComenzar}>
-              COMENZAR
+              INICIAR CÁLCULO
             </button>
           </div>
 
@@ -99,4 +98,4 @@ export const TeoriaN1: React.FC = () => {
   );
 };
 
-export default TeoriaN1; 
+export default TeoriaN2;
